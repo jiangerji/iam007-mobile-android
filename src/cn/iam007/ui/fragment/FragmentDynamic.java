@@ -23,7 +23,7 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 
-public class FragmentFind extends BaseFragment {
+public class FragmentDynamic extends BaseFragment {
 
     private PullToRefreshListView mPullRefreshListView;
     private FindAdapter mFindAdapter;
@@ -32,7 +32,7 @@ public class FragmentFind extends BaseFragment {
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mPullRefreshListView = (PullToRefreshListView) inflater.inflate(R.layout.fragment_find,
+        mPullRefreshListView = (PullToRefreshListView) inflater.inflate(R.layout.fragment_dynamic,
                 container,
                 false);
         //                .findViewById(R.id.find_list);

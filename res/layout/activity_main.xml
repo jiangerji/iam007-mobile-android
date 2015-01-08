@@ -36,8 +36,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp" >
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp" >
             
             <FrameLayout 
                 android:layout_width="wrap_content"
@@ -62,9 +62,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/recommend"
+                android:text="@string/find"
                 android:textColor="@color/panel_title_color"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -74,8 +74,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp" >
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp" >
             
             <FrameLayout 
                 android:layout_width="wrap_content"
@@ -100,9 +100,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/find"
+                android:text="@string/dynamic"
                 android:textColor="@color/panel_title_color"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,8 +112,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp" >
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp" >
             
             <FrameLayout 
                 android:layout_width="wrap_content"
@@ -140,7 +140,7 @@
                 android:gravity="center"
                 android:text="@string/game"
                 android:textColor="@color/panel_title_color"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -150,8 +150,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp" >
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp" >
             
             <FrameLayout 
                 android:layout_width="wrap_content"
@@ -178,7 +178,7 @@
                 android:gravity="center"
                 android:text="@string/mine"
                 android:textColor="@color/panel_title_color"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 

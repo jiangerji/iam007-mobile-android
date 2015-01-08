@@ -6,14 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
-import cn.iam007.ui.fragment.FragmentFind;
+import cn.iam007.ui.fragment.FragmentDynamic;
 import cn.iam007.ui.fragment.TestBlankFragment;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     private Hashtable<Integer, Fragment> mFragmentTable = new Hashtable<Integer, Fragment>();
 
     private Class<?> mFragmentClass[] = { TestBlankFragment.class,
-            FragmentFind.class, TestBlankFragment.class,
+            FragmentDynamic.class, TestBlankFragment.class,
             TestBlankFragment.class };
 
     public MyFragmentPagerAdapter(FragmentManager fm) {
