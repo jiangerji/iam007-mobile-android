@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">我是007</string>
+    <string name="recommend">推荐</string>
+    <string name="live">live</string>
+    <string name="game">game</string>
+    <string name="mine">mine</string>
+    <string name="find">发现</string>
+
+</resources>
