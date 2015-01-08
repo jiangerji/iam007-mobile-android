@@ -17,6 +17,7 @@ public class ContentInfo {
     private String buyUrl; // content buy url
     private String thumbnail; // content thumbnail
     private String hits; // content hits
+    private String intro;// content introduction
 
     /**
      * @return the id
@@ -123,6 +124,21 @@ public class ContentInfo {
         this.hits = hits;
     }
 
+    /**
+     * @return the intro
+     */
+    public String getIntro() {
+        return intro;
+    }
+
+    /**
+     * @param intro
+     *            the intro to set
+     */
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
@@ -133,6 +149,7 @@ public class ContentInfo {
         sb.append("buy url:" + getBuyUrl() + " ");
         sb.append("thumbnail:" + getThumbnail() + " ");
         sb.append("hits:" + getHits() + " ");
+        sb.append("intro:" + getIntro() + " ");
         return sb.toString();
     }
 
@@ -146,13 +163,14 @@ public class ContentInfo {
                 content = contents.getJSONObject(i);
 
                 ContentInfo contentInfo = new ContentInfo();
-                contentInfo.setId(content.getString("i"));
-                contentInfo.setUrl(content.getString("u"));
-                contentInfo.setBuyUrl(content.getString("b"));
-                contentInfo.setCategory(content.getString("c"));
-                contentInfo.setHits(content.getString("h"));
-                contentInfo.setThumbnail(content.getString("t"));
-                contentInfo.setTitle(content.getString("n"));
+                contentInfo.setId(content.optString("i"));
+                contentInfo.setUrl(content.optString("u"));
+                contentInfo.setBuyUrl(content.optString("b"));
+                contentInfo.setCategory(content.optString("c"));
+                contentInfo.setHits(content.optString("h"));
+                contentInfo.setThumbnail(content.optString("t"));
+                contentInfo.setTitle(content.optString("n"));
+                contentInfo.setIntro(content.optString("it"));
 
                 arrayList.add(contentInfo);
                 LogUtil.d(TAG, "content Info:" + contentInfo.toString());

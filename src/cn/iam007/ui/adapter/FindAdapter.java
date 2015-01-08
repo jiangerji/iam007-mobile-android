@@ -52,6 +52,7 @@ public class FindAdapter extends BaseAdapter {
 
         final ImageView thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
         TextView title = (TextView) convertView.findViewById(R.id.title);
+        TextView intro = (TextView) convertView.findViewById(R.id.intro);
 
         if (init) {
             thumbnail.getViewTreeObserver()
@@ -77,6 +78,7 @@ public class FindAdapter extends BaseAdapter {
 
         ContentInfo contentInfo = (ContentInfo) getItem(position);
         title.setText(contentInfo.getTitle());
+        intro.setText(contentInfo.getIntro());
         thumbnail.setImageBitmap(null);
 
         ImageUtils.showImage(contentInfo.getThumbnail(), thumbnail);

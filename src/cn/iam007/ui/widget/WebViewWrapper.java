@@ -142,7 +142,10 @@ public class WebViewWrapper extends FrameLayout {
     private class _WebViewClient extends WebViewClient {
 
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(convertUrl(url));
+            String redirectUrl = convertUrl(url);
+            if (!redirectUrl.equals(url)) {
+                view.loadUrl(redirectUrl);
+            }
             // 用return false这种方式可以解决，重定向网页导致goBack失效的问题
             // 不能使用view.loadUrl, 否则loadUrl不能使用
             return false;
