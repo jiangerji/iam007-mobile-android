@@ -55,7 +55,7 @@ public class TestMainActivity extends BaseActivity {
 
         // 给ViewPager设置适配器
         mFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
-        mPager.setOffscreenPageLimit(mFragmentPagerAdapter.getCount());
+        mPager.setOffscreenPageLimit(mFragmentPagerAdapter.getCount());//
         mPager.setAdapter(mFragmentPagerAdapter);
         mPager.setOnPageChangeListener(new MyOnPageChangeListener());
 
@@ -136,8 +136,7 @@ public class TestMainActivity extends BaseActivity {
 
     private void setCurrentPage(int index) {
         if (index >= 0 && index < mFragmentPagerAdapter.getCount()) {
-            mPager.setCurrentItem(index, true);
-
+            mPager.setCurrentItem(index, false);
             mAccountBtn.setSelected(false);
             mGameBtn.setSelected(false);
             mLiveBtn.setSelected(false);
@@ -147,9 +146,11 @@ public class TestMainActivity extends BaseActivity {
                 if (i != index) {
                     setViewAlpha(mPanelImageNormal.get(i), 1);
                     setViewAlpha(mPanelImageSelected.get(i), 0);
+                    mPanelTitles.get(i).setTextColor(mPanelTitleNormalColor);
                 } else {
                     setViewAlpha(mPanelImageNormal.get(i), 0);
                     setViewAlpha(mPanelImageSelected.get(i), 1);
+                    mPanelTitles.get(i).setTextColor(mPanelTitleSelectedColor);
                 }
             }
 

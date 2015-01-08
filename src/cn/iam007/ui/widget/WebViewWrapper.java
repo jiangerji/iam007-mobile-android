@@ -36,6 +36,13 @@ public class WebViewWrapper extends FrameLayout {
         mWebView.getSettings().setUseWideViewPort(true);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setSupportZoom(false); // 禁止用户对网页进行放大
+        mWebView.setOnLongClickListener(new OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
 
         mWebView.setWebViewClient(new _WebViewClient());
         mWebView.setWebChromeClient(new _WebChromeClient());
@@ -123,6 +130,12 @@ public class WebViewWrapper extends FrameLayout {
     public void goBack() {
         if (mWebView != null) {
             mWebView.goBack();
+        }
+    }
+
+    public void refresh() {
+        if (mWebView != null) {
+            mWebView.reload();
         }
     }
 

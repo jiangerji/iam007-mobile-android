@@ -63,7 +63,7 @@ public class FragmentFind extends BaseFragment {
     };
 
     private void init() {
-        String action = "hotest";
+        String action = "latest";
         //TODO: 暂时没有加入缓存
         CommonHttpUtils.get(action, null, mCallBack);
     }
