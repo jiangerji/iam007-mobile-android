@@ -5,26 +5,40 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import cn.iam007.R;
 import cn.iam007.utils.logging.LogUtil;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class WebViewWrapper extends WebView {
+public class WebViewWrapper extends FrameLayout {
 
     public static final String TAG = "WebViewWrapper";
 
     private GestureDetector gestureScanner;
 
+    private WebView mWebView;
+    private ProgressBar mProgressBar;
+
     public WebViewWrapper(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        getSettings().setJavaScriptEnabled(true);
-        getSettings().setUseWideViewPort(true);
-        getSettings().setLoadWithOverviewMode(true);
-        getSettings().setSupportZoom(false); // 禁止用户对网页进行放大
+        View root = inflate(context, R.layout.webview_wrapper, this);
 
-        setWebViewClient(new MyWebViewClient());
+        mWebView = (WebView) root.findViewById(R.id.webview);
+        mProgressBar = (ProgressBar) root.findViewById(R.id.progressBar);
+
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setUseWideViewPort(true);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setSupportZoom(false); // 禁止用户对网页进行放大
+
+        mWebView.setWebViewClient(new _WebViewClient());
+        mWebView.setWebChromeClient(new _WebChromeClient());
 
         gestureScanner = new GestureDetector(context,
                 new GestureDetector.OnGestureListener() {
@@ -92,13 +106,47 @@ public class WebViewWrapper extends WebView {
     //        }
     //    }
 
-    private class MyWebViewClient extends WebViewClient {
+    public void loadUrl(String url) {
+        if (mWebView != null) {
+            mWebView.loadUrl(url);
+        }
+    }
+
+    public boolean canGoBack() {
+        boolean result = false;
+        if (mWebView != null) {
+            result = mWebView.canGoBack();
+        }
+        return result;
+    }
+
+    public void goBack() {
+        if (mWebView != null) {
+            mWebView.goBack();
+        }
+    }
+
+    private class _WebViewClient extends WebViewClient {
 
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(convertUrl(url));
             // 用return false这种方式可以解决，重定向网页导致goBack失效的问题
             // 不能使用view.loadUrl, 否则loadUrl不能使用
             return false;
+        }
+    }
+
+    private class _WebChromeClient extends WebChromeClient {
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+            if (newProgress == 100) {
+                mProgressBar.setVisibility(View.GONE);
+            } else {
+                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(newProgress);
+            }
         }
     }
 

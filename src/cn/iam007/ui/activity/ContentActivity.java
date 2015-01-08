@@ -3,14 +3,13 @@ package cn.iam007.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.webkit.WebView;
 import cn.iam007.R;
 import cn.iam007.ui.widget.WebViewWrapper;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class ContentActivity extends BaseActivity {
 
-    private WebView mWebContent;
+    private WebViewWrapper mWebContent;
     private String mContentId = null;
     private String mContentCategory = null;
     private String mContentUrl = null;
