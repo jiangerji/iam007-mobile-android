@@ -24,6 +24,8 @@ public class WebViewWrapper extends FrameLayout {
     private WebView mWebView;
     private ProgressBar mProgressBar;
 
+    private boolean mUrlCanClick = false;
+
     public WebViewWrapper(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -113,9 +115,19 @@ public class WebViewWrapper extends FrameLayout {
     //        }
     //    }
 
+    public void setUrlClickable(boolean clickable) {
+        mUrlCanClick = clickable;
+    }
+
     public void loadUrl(String url) {
         if (mWebView != null) {
             mWebView.loadUrl(url);
+        }
+    }
+
+    public void loadData(String data) {
+        if (mWebView != null) {
+            mWebView.loadDataWithBaseURL(null, data, "text/html", "utf-8", "");
         }
     }
 
@@ -142,6 +154,10 @@ public class WebViewWrapper extends FrameLayout {
     private class _WebViewClient extends WebViewClient {
 
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (!mUrlCanClick) {
+                return true;
+            }
+
             String redirectUrl = convertUrl(url);
             if (!redirectUrl.equals(url)) {
                 view.loadUrl(redirectUrl);

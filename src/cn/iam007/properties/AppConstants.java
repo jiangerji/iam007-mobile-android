@@ -4,6 +4,7 @@ public class AppConstants {
 
     public static boolean LOGGER_ENABLE = true;
 
-    public static String HOST = "http://192.168.41.101:8000/";
+    //    public static String HOST = "http://192.168.41.101:8000/";
+    public static String HOST = "http://iam007.cn:801/";
 
 }

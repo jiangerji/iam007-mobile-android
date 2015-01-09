@@ -33,6 +33,11 @@
             android:screenOrientation="portrait">
             
         </activity>
+        <activity 
+            android:name=".ui.activity.WebViewActivity" 
+            android:screenOrientation="portrait">
+            
+        </activity>
         
     </application>
 

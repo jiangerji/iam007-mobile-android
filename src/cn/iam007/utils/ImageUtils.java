@@ -92,4 +92,19 @@ public class ImageUtils {
                 .displayImage(buildImageUrl(imageId),
                         imageView, getOptionsFadeIn());
     }
+
+    /**
+     * 显示网络图片
+     * 
+     * @param imageUrl
+     *            网络图片地址
+     * @param imageView
+     *            显示图片的对象
+     * @param options
+     *            显示图片的选项
+     */
+    public static void showImageByUrl(
+            String imageUrl, ImageView imageView, DisplayImageOptions options) {
+        ImageLoader.getInstance().displayImage(imageUrl, imageView, options);
+    }
 }

@@ -60,6 +60,7 @@ public class CommonHttpUtils {
      * @param cacheKey
      *            如果不为空，会将数据进行缓存，当网络出现异常，会直接返回cache数据
      *            如果为空，则不会进行缓存，当网络出现异常，会返回异常给调用者
+     *            单位：秒
      */
     public static void get(
             final String action, final RequestParams params,
