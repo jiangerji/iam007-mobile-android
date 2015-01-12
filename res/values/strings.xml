@@ -16,5 +16,6 @@
     <string name="content_detail">图文详情</string>
 
     <string name="pd_collect">关注</string>
+    <string name="pd_collected">已关注</string>
     <string name="pd_add2car">去购买</string>
 </resources>

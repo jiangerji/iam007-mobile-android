@@ -32,6 +32,7 @@
                 android:contentDescription="@null" />
             
             <TextView
+                android:id="@+id/pd_collect_state"
                 android:textSize="@dimen/pd_txt_size_large" 
                 android:textColor="@android:color/white" 
                 android:gravity="center" 

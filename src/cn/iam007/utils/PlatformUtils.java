@@ -1,10 +1,18 @@
 package cn.iam007.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.UUID;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.provider.Settings.Secure;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
+import android.widget.Toast;
 import cn.iam007.IAM007Application;
 
 import com.lidroid.xutils.http.RequestParams;
@@ -129,6 +137,76 @@ public class PlatformUtils {
                 callBack,
                 "cache.check.update",
                 30 * 60);
+    }
+
+    /**************************** UUID框架 ***********************************/
+    private static String sID = null;// 作为设备的唯一标识符
+    private static final String INSTALLATION = "INSTALLATION";
+
+    public synchronized static String id(Context context) {
+        if (context == null) {
+            context = IAM007Application.getCurrentApplication();
+        }
+
+        if (sID == null) {
+            File installation = new File(context.getFilesDir(), INSTALLATION);
+            try {
+                if (!installation.exists()) {
+                    writeInstallationFile(context, installation);
+                }
+                sID = readInstallationFile(installation);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return sID;
+    }
+
+    private static String readInstallationFile(File installation)
+            throws IOException {
+        RandomAccessFile f = new RandomAccessFile(installation, "r");
+        byte[] bytes = new byte[(int) f.length()];
+        f.readFully(bytes);
+        f.close();
+        return new String(bytes);
+    }
+
+    private static
+            void writeInstallationFile(Context context, File installation)
+                    throws IOException {
+        FileOutputStream out = new FileOutputStream(installation);
+
+        String id = null;
+        final String androidId = Secure.getString(context.getContentResolver(),
+                Secure.ANDROID_ID);
+        if (androidId == null) {
+            id = UUID.randomUUID().toString();
+        } else {
+            if (!"9774d56d682e549c".equals(androidId)) {
+                id = androidId;
+            } else {
+                id = UUID.randomUUID().toString();
+            }
+        }
+        out.write(id.getBytes());
+        out.close();
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+
+    private static String mUid = null;
+
+    /**
+     * 获取当前登录用户的uid
+     */
+    public static String getUid() {
+        Context context = IAM007Application.getCurrentApplication();
+        if (mUid == null) {
+            // TODO: 提示显示需要登录
+            Toast.makeText(context, "请登录", Toast.LENGTH_SHORT).show();
+        }
+
+        return mUid;
     }
 
 }

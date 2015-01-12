@@ -25,6 +25,8 @@ import cn.iam007.HttpExceptionButFoundCache;
 import cn.iam007.R;
 import cn.iam007.ui.widget.WebViewWrapper;
 import cn.iam007.utils.CommonHttpUtils;
+import cn.iam007.utils.ContentUtil;
+import cn.iam007.utils.ContentUtil.BoolCallback;
 import cn.iam007.utils.ImageUtils;
 import cn.iam007.utils.IntentUtil;
 import cn.iam007.utils.PlatformUtils;
@@ -46,7 +48,9 @@ public class ContentActivity extends BaseActivity {
     private String mContentUrl = null;
 
     private View mBuyBtn = null;
-    private View mCollectBtn = null;
+    private View mCollectBtn = null; // 关注，取消关注按钮
+    private TextView mCollectState = null;
+    private boolean mCollected = false; // 是否已经关注
 
     private ViewPager mContentThumbnails;
     private _ThumbnailsAdapter mThumbnailsAdapter = new _ThumbnailsAdapter();
@@ -103,11 +107,43 @@ public class ContentActivity extends BaseActivity {
         mContentIntro = (TextView) findViewById(R.id.content_intro);
 
         mCollectBtn = findViewById(R.id.pd_collect);
+        mCollectState = (TextView) findViewById(R.id.pd_collect_state);
         mCollectBtn.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                mCollectBtn.setEnabled(false);
+                if (mCollected) {
+                    mCollectBtn.setSelected(false);
+                    mCollectState.setText(R.string.pd_collect);
+                    ContentUtil.collect(mContentId, new BoolCallback() {
 
+                        @Override
+                        public void onFinish(boolean state, String msg) {
+                            mCollectBtn.setEnabled(true);
+                            if (state) {
+                                mCollected = false;
+                            } else {
+                                mCollectBtn.setSelected(true);
+                            }
+                        }
+                    });
+                } else {
+                    mCollectBtn.setSelected(true);
+                    mCollectState.setText(R.string.pd_collected);
+                    ContentUtil.uncollect(mContentId, new BoolCallback() {
+
+                        @Override
+                        public void onFinish(boolean state, String msg) {
+                            mCollectBtn.setEnabled(true);
+                            if (state) {
+                                mCollected = true;
+                            } else {
+                                mCollectBtn.setSelected(false);
+                            }
+                        }
+                    });
+                }
             }
         });
     }
