@@ -29,4 +29,10 @@ public class LogUtil {
             Log.v(tag, msg);
         }
     }
+
+    public static void e(String tag, String msg) {
+        if (AppConstants.LOGGER_ENABLE) {
+            Log.e(tag, msg);
+        }
+    }
 }

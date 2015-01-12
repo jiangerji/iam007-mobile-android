@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import cn.iam007.R;
 import cn.iam007.ui.widget.WebViewWrapper;
+import cn.iam007.utils.logging.LogUtil;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -24,12 +25,15 @@ public class WebViewActivity extends BaseActivity {
     }
 
     private void initWebView() {
+        mWebContent.setUrlClickable(true);
+
         Intent intent = getIntent();
         mContentUrl = intent.getStringExtra("url");
 
         setTitle(intent.getStringExtra("title"));
 
         mWebContent.loadUrl(mContentUrl);
+        LogUtil.d("WebView", "loadUrl:" + mContentUrl);
     }
 
     @Override

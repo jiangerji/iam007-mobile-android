@@ -46,11 +46,13 @@ public class ContentActivity extends BaseActivity {
     private String mContentUrl = null;
 
     private View mBuyBtn = null;
+    private View mCollectBtn = null;
 
     private ViewPager mContentThumbnails;
     private _ThumbnailsAdapter mThumbnailsAdapter = new _ThumbnailsAdapter();
 
-    private TextView mThumbnailIndex = null;
+    private TextView mThumbnailIndex = null; // 表示当前thumbnail的index
+    private TextView mContentIntro = null;
 
     @Override
     protected void onCreate(Bundle bundle) {
@@ -58,7 +60,7 @@ public class ContentActivity extends BaseActivity {
 
         setContentView(R.layout.activity_content);
 
-        mBuyBtn = findViewById(R.id.buy);
+        mBuyBtn = findViewById(R.id.goto_buy);
         mBuyBtn.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -98,6 +100,16 @@ public class ContentActivity extends BaseActivity {
         });
 
         mThumbnailIndex = (TextView) findViewById(R.id.thumbnail_index);
+        mContentIntro = (TextView) findViewById(R.id.content_intro);
+
+        mCollectBtn = findViewById(R.id.pd_collect);
+        mCollectBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void initWebView() {
@@ -129,7 +141,7 @@ public class ContentActivity extends BaseActivity {
             public void run() {
                 mWebContent.loadUrl(mContentUrl);
             }
-        }, 500);
+        }, 250);
     }
 
     private RequestCallBack<String> mCallBack = new RequestCallBack<String>() {
@@ -154,6 +166,8 @@ public class ContentActivity extends BaseActivity {
             if (id.equals(mContentId)) {
                 String introText = object.optString("it");
                 LogUtil.d(TAG, "introduction:" + introText);
+                mContentIntro.setText(introText);
+
                 JSONArray thumbnailsArray = object.optJSONArray("ts");
                 LogUtil.d(TAG, "thumbnails:");
                 for (int i = 0; i < thumbnailsArray.length(); i++) {

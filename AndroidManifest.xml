@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.iam007"
-    android:versionCode="1"
+    android:versionCode="10000"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -22,11 +22,6 @@
             android:name="cn.iam007.test.TestMainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity 
             android:name=".ui.activity.ContentActivity" 
@@ -37,6 +32,16 @@
             android:name=".ui.activity.WebViewActivity" 
             android:screenOrientation="portrait">
             
+        </activity>
+        <activity 
+            android:name=".ui.activity.WelcomeActivity" 
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         
     </application>

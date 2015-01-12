@@ -111,7 +111,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         if ((getFlag() & FLAG_SEARCH_VIEW) == FLAG_SEARCH_VIEW) {
             MenuItem menuItem = menu.add("delete");
-            menuItem.setIcon(R.drawable.action_bar_search_btn_bg)
+            menuItem.setIcon(R.drawable.activity_action_bar_search_btn_bg)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM
                             | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
             menuItem.setOnMenuItemClickListener(new OnMenuItemClickListener() {

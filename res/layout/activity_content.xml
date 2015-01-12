@@ -1,11 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+    
+    <LinearLayout
+        android:id="@+id/bottonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@drawable/pd_bottom_bg"
+        android:padding="@dimen/pd_space_width_12"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:baselineAligned="false" >
+        
+        <LinearLayout
+            android:id="@+id/pd_collect"
+            android:gravity="center"
+            android:background="@drawable/pd_collect_bg" 
+            android:layout_width="105.0dip" 
+            android:layout_height="fill_parent" 
+            android:layout_marginRight="@dimen/pd_space_width_9"
+            android:layout_marginEnd="@dimen/pd_space_width_9" >
+            <ImageView
+                android:duplicateParentState="true"
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginRight="@dimen/pd_space_width_9"
+                android:layout_marginEnd="@dimen/pd_space_width_9" 
+                android:src="@drawable/pd_collect"
+                android:contentDescription="@null" />
+            
+            <TextView
+                android:textSize="@dimen/pd_txt_size_large" 
+                android:textColor="@android:color/white" 
+                android:gravity="center" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:adjustViewBounds="true" 
+                android:text="@string/pd_collect" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/goto_buy"
+            android:gravity="center" 
+            android:background="@drawable/pd_add2car_bg" 
+            android:visibility="visible" 
+            android:layout_width="0.0dip" 
+            android:layout_height="fill_parent" 
+            android:layout_marginRight="@dimen/pd_space_width_9"
+            android:layout_marginEnd="@dimen/pd_space_width_9"
+            android:layout_weight="1.0">
+            <ImageView
+                android:duplicateParentState="true" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:layout_marginRight="@dimen/pd_space_width_9"
+                android:layout_marginEnd="@dimen/pd_space_width_9"
+                android:src="@drawable/pd_add2car"
+                android:contentDescription="@null" />
+            
+            <TextView
+                android:textSize="@dimen/pd_txt_size_large" 
+                android:textColor="@android:color/white" 
+                android:gravity="center" 
+                android:duplicateParentState="true" 
+                android:layout_width="wrap_content" 
+                android:layout_height="wrap_content" 
+                android:adjustViewBounds="true" 
+                android:text="@string/pd_add2car" />
+        </LinearLayout>
+        
+    </LinearLayout>
     
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/bottonPanel"
         android:orientation="vertical" >
         
         <LinearLayout
@@ -36,7 +108,8 @@
                     android:layout_marginBottom="12dp"
                     android:gravity="center"
                     android:background="@drawable/text_round_grey_bg"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
                 
                 <View
                     android:layout_width="match_parent"
@@ -44,6 +117,39 @@
                     android:layout_alignParentBottom="true"
                     android:background="#F6F6F6" />
             </RelativeLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:orientation="vertical" >
+            
+                <TextView
+                    android:id="@+id/content_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+                
+            </LinearLayout>
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F6F6F6" />
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:text="@string/content_detail"
+                android:textColor="@color/text_grey_color"
+                android:textSize="16sp" />
                 
             <cn.iam007.ui.widget.WebViewWrapper
                 android:id="@+id/webContent"
@@ -53,17 +159,4 @@
     
     </ScrollView>
     
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal" >
-        
-        <Button
-            android:id="@+id/buy"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/go_buy" />
-    </LinearLayout>
 </RelativeLayout>
