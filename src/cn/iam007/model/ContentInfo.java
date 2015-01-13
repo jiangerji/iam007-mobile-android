@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import cn.iam007.utils.logging.LogUtil;
+import cn.iam007.common.utils.logging.LogUtil;
 
 public class ContentInfo {
     private final static String TAG = "ContentInfo";

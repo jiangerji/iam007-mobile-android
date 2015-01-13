@@ -8,9 +8,9 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import cn.iam007.R;
+import cn.iam007.common.utils.PlatformUtils;
+import cn.iam007.common.utils.logging.LogUtil;
 import cn.iam007.test.TestMainActivity;
-import cn.iam007.utils.PlatformUtils;
-import cn.iam007.utils.logging.LogUtil;
 
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;

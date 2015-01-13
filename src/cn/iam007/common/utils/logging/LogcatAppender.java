@@ -1,4 +1,4 @@
-package cn.iam007.utils.logging;
+package cn.iam007.common.utils.logging;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Layout;

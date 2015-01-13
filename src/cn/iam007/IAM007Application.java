@@ -6,8 +6,12 @@ import org.apache.log4j.Level;
 
 import android.app.Application;
 import android.os.Environment;
-import cn.iam007.utils.ImageUtils;
-import cn.iam007.utils.logging.LogConfigurator;
+import android.text.TextUtils;
+import cn.iam007.common.utils.ImageUtils;
+import cn.iam007.common.utils.PlatformUtils;
+import cn.iam007.common.utils.logging.LogConfigurator;
+
+import com.baidu.mobstat.StatService;
 
 public class IAM007Application extends Application {
 
@@ -22,6 +26,14 @@ public class IAM007Application extends Application {
         logConfigure();
 
         ImageUtils.init(this);
+
+        // 初始化百度统计
+        String appChannel = PlatformUtils.getMeteDataByKey(this, "app_channel");
+        if (TextUtils.isEmpty(appChannel)) {
+            appChannel = "offical";
+        }
+        StatService.setAppChannel(this, appChannel, true);
+        StatService.setSessionTimeOut(30);
     }
 
     public final static IAM007Application getCurrentApplication() {

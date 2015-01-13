@@ -1,4 +1,4 @@
-package cn.iam007.utils;
+package cn.iam007.common.utils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,7 +7,9 @@ import java.io.RandomAccessFile;
 import java.util.UUID;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.provider.Settings.Secure;
 import android.util.DisplayMetrics;
@@ -117,6 +119,40 @@ public class PlatformUtils {
         } catch (NameNotFoundException e) {
             return -1;
         }
+    }
+
+    /**
+     * 通过key值获取<mete-data /> 标签中的值
+     * 
+     * @param mContext
+     *            运行上下文
+     * @param key
+     *            对应的key 值
+     * @return data key对应的value 值
+     * */
+    public static String getMeteDataByKey(Context mContext, String key) {
+        try {
+            ApplicationInfo appInfo = mContext
+                    .getApplicationContext()
+                    .getPackageManager()
+                    .getApplicationInfo(mContext.getPackageName(),
+                            PackageManager.GET_META_DATA);
+
+            if (appInfo.metaData != null) {
+                Object tmp = appInfo.metaData.get(key);
+                if (tmp != null) {
+                    String tmpValue = tmp.toString();
+                    if (tmpValue.startsWith("<a>")) {
+                        return tmpValue.substring(3);
+                    } else {
+                        return tmpValue;
+                    }
+                }
+            }
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**

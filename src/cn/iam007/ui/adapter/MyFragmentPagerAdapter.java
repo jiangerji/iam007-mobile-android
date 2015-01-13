@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
+import cn.iam007.common.utils.logging.LogUtil;
 import cn.iam007.ui.fragment.FragmentDynamic;
 import cn.iam007.ui.fragment.FragmentFind;
 import cn.iam007.ui.fragment.TestBlankFragment;
@@ -32,13 +32,15 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        LogUtil.d("MyFragmentPagerAdapter", "getItem:" + position);
         Fragment fragment = mFragmentTable.get(position);
         if (fragment == null) {
             Class<?> fragmentClass = mFragmentClass[position];
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
+                mFragmentTable.put(position, fragment);
             } catch (Exception e) {
-                Log.d("excetpion", "MyFragmentPagerAdapter:" + e.toString());
+                LogUtil.d("excetpion", "MyFragmentPagerAdapter:" + e.toString());
             }
         }
         return fragment;

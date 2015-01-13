@@ -12,4 +12,10 @@
     <color name="text_grey_color">#A0A0A0</color>
     
     <color name="text_bg_grey_color">#C8B1B1B1</color>
+    
+    <!-- weixin share -->
+    <color name="wx_share_bg">#ffeeeef3</color>
+    <color name="wx_share_top_line_bg">#ffe5332c</color>
+    <color name="wx_share_mid_line_bg">#ffd1d1d1</color>
+    <color name="wx_share_text_color">#ff545454</color>
 </resources>

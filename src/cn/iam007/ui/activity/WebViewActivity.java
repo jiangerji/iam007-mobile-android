@@ -3,8 +3,8 @@ package cn.iam007.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import cn.iam007.R;
+import cn.iam007.common.utils.logging.LogUtil;
 import cn.iam007.ui.widget.WebViewWrapper;
-import cn.iam007.utils.logging.LogUtil;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;

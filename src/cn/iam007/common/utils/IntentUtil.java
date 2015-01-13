@@ -1,11 +1,11 @@
-package cn.iam007.utils;
+package cn.iam007.common.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import cn.iam007.common.utils.logging.LogUtil;
 import cn.iam007.model.ContentInfo;
 import cn.iam007.ui.activity.ContentActivity;
 import cn.iam007.ui.activity.WebViewActivity;
-import cn.iam007.utils.logging.LogUtil;
 
 public class IntentUtil {
     private final static String TAG = "intent";

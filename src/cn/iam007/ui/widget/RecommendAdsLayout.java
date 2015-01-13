@@ -18,12 +18,12 @@ import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import cn.iam007.HttpExceptionButFoundCache;
 import cn.iam007.R;
+import cn.iam007.common.exception.HttpExceptionButFoundCache;
+import cn.iam007.common.utils.CommonHttpUtils;
+import cn.iam007.common.utils.ImageUtils;
+import cn.iam007.common.utils.PlatformUtils;
 import cn.iam007.model.ContentInfo;
-import cn.iam007.utils.CommonHttpUtils;
-import cn.iam007.utils.ImageUtils;
-import cn.iam007.utils.PlatformUtils;
 
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;

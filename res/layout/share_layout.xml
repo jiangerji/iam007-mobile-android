@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:background="#ffe7e7e7" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" >
+    
+    <View 
+        android:id="@+id/share_to_top_line" 
+        android:background="@color/wx_share_top_line_bg" 
+        android:layout_width="fill_parent" 
+        android:layout_height="2.0dip" 
+        android:layout_alignParentTop="true" />
+    
+    <RelativeLayout 
+        android:id="@+id/share_to_mid_layout" 
+        android:background="@color/wx_share_bg" 
+        android:layout_width="fill_parent" 
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/share_to_top_line">
+        
+        <TextView 
+            android:textSize="19.0sp" 
+            android:textColor="@color/wx_share_text_color" 
+            android:id="@+id/share_to" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="20.0dip"
+            android:layout_marginStart="20.0dip"
+            android:layout_marginTop="18.0dip" 
+            android:text="@string/wx_share_to" />
+        
+        <LinearLayout 
+            android:orientation="horizontal" 
+            android:id="@+id/share_to_item" 
+            android:paddingLeft="10.0dip"
+            android:paddingStart="10.0dip"
+            android:paddingRight="0dip"
+            android:paddingEnd="0dip"
+            android:paddingTop="14.0dip" 
+            android:layout_width="fill_parent" 
+            android:layout_height="wrap_content" 
+            android:layout_below="@id/share_to"
+            android:baselineAligned="false" >
+            
+            <RelativeLayout 
+                android:id="@+id/wx_share_to_friends" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                android:layout_weight="1.0">
+                
+                <ImageView 
+                    android:id="@+id/share_to_wx_f" 
+                    android:layout_width="60.0dip" 
+                    android:layout_height="60.0dip" 
+                    android:src="@drawable/share_to_wx_icon" 
+                    android:scaleType="fitCenter" 
+                    android:adjustViewBounds="true" 
+                    android:layout_centerHorizontal="true" />
+                
+                <TextView 
+                    android:textSize="12.5sp" 
+                    android:textColor="@color/wx_share_text_color" 
+                    android:id="@+id/share_to_wx_text" 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="6.0dip" 
+                    android:text="@string/wx_share_to_friends" 
+                    android:layout_below="@id/share_to_wx_f" 
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+            
+            <RelativeLayout 
+                android:id="@+id/wx_share_to_friends_circle" 
+                android:layout_width="fill_parent" 
+                android:layout_height="wrap_content" 
+                android:layout_weight="1.0">
+                
+                <ImageView 
+                    android:id="@+id/share_to_wx_c" 
+                    android:layout_width="60.0dip" 
+                    android:layout_height="60.0dip" 
+                    android:src="@drawable/share_to_wx_friend_icon" 
+                    android:scaleType="fitCenter" 
+                    android:adjustViewBounds="true" 
+                    android:layout_centerHorizontal="true" />
+                
+                <TextView 
+                    android:textSize="12.5sp" 
+                    android:textColor="@color/wx_share_text_color" 
+                    android:id="@+id/share_to_wx_circle_text" 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="6.0dip" 
+                    android:text="@string/wx_share_to_friends_circle" 
+                    android:layout_below="@id/share_to_wx_c" 
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+            
+            <RelativeLayout 
+                android:gravity="center" 
+                android:id="@+id/share_to_more_layout" 
+                android:layout_width="fill_parent" 
+                android:layout_height="fill_parent" 
+                android:layout_weight="1.0">
+                
+                <ImageView 
+                    android:id="@+id/share_to_wx_more" 
+                    android:layout_width="60.0dip" 
+                    android:layout_height="60.0dip" 
+                    android:src="@drawable/share_to_more_icon" 
+                    android:scaleType="fitCenter" 
+                    android:adjustViewBounds="true" 
+                    android:layout_centerHorizontal="true" />
+                
+                <TextView android:textSize="12.5sp" 
+                    android:textColor="@color/wx_share_text_color" 
+                    android:id="@+id/share_to_more" 
+                    android:layout_width="wrap_content" 
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="6.0dip" 
+                    android:text="@string/my_personal_more" 
+                    android:layout_below="@id/share_to_wx_more" 
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+        </LinearLayout>
+        
+        <View android:id="@+id/share_to_mid_line" 
+            android:background="@color/wx_share_mid_line_bg" 
+            android:layout_width="fill_parent" 
+            android:layout_height="1.0px" 
+            android:layout_marginTop="13.0dip" 
+            android:layout_below="@id/share_to_item" />
+    </RelativeLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/share_to_cancle" 
+        android:background="@color/wx_share_bg" 
+        android:layout_width="fill_parent" 
+        android:layout_height="45.0dip" 
+        android:layout_alignParentBottom="true">
+        
+        <TextView android:textSize="16.5sp" 
+            android:textColor="@color/wx_share_text_color" 
+            android:layout_width="wrap_content" 
+            android:layout_height="wrap_content" 
+            android:text="@string/cancel" 
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+    
+</LinearLayout>

@@ -12,7 +12,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import cn.iam007.R;
-import cn.iam007.utils.logging.LogUtil;
+import cn.iam007.common.utils.logging.LogUtil;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewWrapper extends FrameLayout {

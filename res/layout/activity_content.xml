@@ -72,6 +72,15 @@
                 android:text="@string/pd_add2car" />
         </LinearLayout>
         
+        <ImageView
+            android:id="@+id/pd_share"
+            android:background="@drawable/pd_share_bg" 
+            android:layout_width="40dp" 
+            android:layout_height="match_parent" 
+            android:src="@drawable/pd_share" 
+            android:scaleType="center"
+            android:contentDescription="@null" />
+        
     </LinearLayout>
     
     <ScrollView

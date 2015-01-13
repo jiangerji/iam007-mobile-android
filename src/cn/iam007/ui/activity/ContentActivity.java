@@ -13,24 +13,27 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
-import cn.iam007.HttpExceptionButFoundCache;
 import cn.iam007.R;
+import cn.iam007.common.exception.HttpExceptionButFoundCache;
+import cn.iam007.common.utils.CommonHttpUtils;
+import cn.iam007.common.utils.ContentUtil;
+import cn.iam007.common.utils.ImageUtils;
+import cn.iam007.common.utils.IntentUtil;
+import cn.iam007.common.utils.PlatformUtils;
+import cn.iam007.common.utils.ContentUtil.BoolCallback;
+import cn.iam007.common.utils.logging.LogUtil;
+import cn.iam007.ui.widget.ShareDialog;
 import cn.iam007.ui.widget.WebViewWrapper;
-import cn.iam007.utils.CommonHttpUtils;
-import cn.iam007.utils.ContentUtil;
-import cn.iam007.utils.ContentUtil.BoolCallback;
-import cn.iam007.utils.ImageUtils;
-import cn.iam007.utils.IntentUtil;
-import cn.iam007.utils.PlatformUtils;
-import cn.iam007.utils.logging.LogUtil;
 
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -47,6 +50,8 @@ public class ContentActivity extends BaseActivity {
     private String mContentBuyUrl = null;
     private String mContentUrl = null;
 
+    private View mThumbnailsRoot = null;
+
     private View mBuyBtn = null;
     private View mCollectBtn = null; // 关注，取消关注按钮
     private TextView mCollectState = null;
@@ -58,11 +63,16 @@ public class ContentActivity extends BaseActivity {
     private TextView mThumbnailIndex = null; // 表示当前thumbnail的index
     private TextView mContentIntro = null;
 
+    private View mShareBtn = null;// 分享按钮
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
         setContentView(R.layout.activity_content);
+
+        mWebContent = (WebViewWrapper) findViewById(R.id.webContent);
+        initWebView();
 
         mBuyBtn = findViewById(R.id.goto_buy);
         mBuyBtn.setOnClickListener(new OnClickListener() {
@@ -73,14 +83,20 @@ public class ContentActivity extends BaseActivity {
                         mContentId, mContentTitle, mContentBuyUrl);
             }
         });
-        mWebContent = (WebViewWrapper) findViewById(R.id.webContent);
-        initWebView();
+        if (TextUtils.isEmpty(mContentBuyUrl)) {
+            mBuyBtn.setEnabled(false);
+        }
 
-        View thumbnailsRoot = findViewById(R.id.thumbnails_root);
-        LayoutParams layoutParams = thumbnailsRoot.getLayoutParams();
-        layoutParams.width = PlatformUtils.getScreenWidth(this);
-        layoutParams.height = layoutParams.width;
-        thumbnailsRoot.setLayoutParams(layoutParams);
+        mThumbnailsRoot = findViewById(R.id.thumbnails_root);
+        LayoutParams layoutParams = mThumbnailsRoot.getLayoutParams();
+        if (mContentCategory.equals("8")) {
+            layoutParams.width = PlatformUtils.getScreenWidth(this);
+            layoutParams.height = (int) (layoutParams.width * 375.0 / 600.0);
+        } else {
+            layoutParams.width = PlatformUtils.getScreenWidth(this);
+            layoutParams.height = layoutParams.width;
+        }
+        mThumbnailsRoot.setLayoutParams(layoutParams);
 
         mContentThumbnails = (ViewPager) findViewById(R.id.content_thumbnails);
         mContentThumbnails.setAdapter(mThumbnailsAdapter);
@@ -146,6 +162,15 @@ public class ContentActivity extends BaseActivity {
                 }
             }
         });
+        mShareBtn = findViewById(R.id.pd_share);
+        mShareBtn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ShareDialog dialog = new ShareDialog(ContentActivity.this);
+                dialog.show();
+            }
+        });
     }
 
     private void initWebView() {
@@ -204,15 +229,26 @@ public class ContentActivity extends BaseActivity {
                 LogUtil.d(TAG, "introduction:" + introText);
                 mContentIntro.setText(introText);
 
-                JSONArray thumbnailsArray = object.optJSONArray("ts");
-                LogUtil.d(TAG, "thumbnails:");
-                for (int i = 0; i < thumbnailsArray.length(); i++) {
-                    LogUtil.d(TAG, "  " + thumbnailsArray.getString(i));
-                    //                    mThumbnails.addImageUrl(thumbnailsArray.getString(i));
-                    mImageUrls.add(thumbnailsArray.getString(i));
+                if (mContentCategory.equals("15")) {
+                    mThumbnailsRoot.setVisibility(View.GONE);
+                } else {
+                    mThumbnailsRoot.setVisibility(View.VISIBLE);
+                    JSONArray thumbnailsArray = object.optJSONArray("ts");
+                    LogUtil.d(TAG, "thumbnails:");
+                    for (int i = 0; i < thumbnailsArray.length(); i++) {
+                        LogUtil.d(TAG, "  " + thumbnailsArray.getString(i));
+                        //                    mThumbnails.addImageUrl(thumbnailsArray.getString(i));
+                        mImageUrls.add(thumbnailsArray.getString(i));
+                    }
+                    mThumbnailIndex.setText("1/" + thumbnailsArray.length());
+                    mThumbnailsAdapter.notifyDataSetChanged();
                 }
-                mThumbnailIndex.setText("1/" + thumbnailsArray.length());
-                mThumbnailsAdapter.notifyDataSetChanged();
+
+                String buyUrl = object.optString("b", null);
+                if (URLUtil.isNetworkUrl(buyUrl)) {
+                    mContentBuyUrl = buyUrl;
+                    mBuyBtn.setEnabled(true);
+                }
             }
         } catch (Exception e) {
         }

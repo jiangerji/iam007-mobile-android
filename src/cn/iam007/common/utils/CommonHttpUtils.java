@@ -1,4 +1,4 @@
-package cn.iam007.utils;
+package cn.iam007.common.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,9 +8,9 @@ import java.io.IOException;
 import org.apache.http.NameValuePair;
 
 import android.text.TextUtils;
-import android.util.Log;
-import cn.iam007.HttpExceptionButFoundCache;
 import cn.iam007.IAM007Application;
+import cn.iam007.common.exception.HttpExceptionButFoundCache;
+import cn.iam007.common.utils.logging.LogUtil;
 import cn.iam007.properties.AppConstants;
 
 import com.lidroid.xutils.HttpUtils;
@@ -29,7 +29,7 @@ public class CommonHttpUtils {
     private static void printParams(RequestParams params) {
         if (params != null) {
             for (NameValuePair nameValuePair : params.getQueryStringParams()) {
-                Log.d(TAG,
+                LogUtil.d(TAG,
                         "  " + nameValuePair.getName() + ":"
                                 + nameValuePair.getValue());
             }
@@ -87,9 +87,9 @@ public class CommonHttpUtils {
 
                     @Override
                     public void onSuccess(ResponseInfo<String> responseInfo) {
-                        Log.d(TAG, "Get " + url);
+                        LogUtil.d(TAG, "Get " + url);
                         printParams(params);
-                        Log.d(TAG, "onSuccess:" + responseInfo.result);
+                        LogUtil.d(TAG, "onSuccess:" + responseInfo.result);
                         if (callBack != null) {
                             callBack.onSuccess(responseInfo);
                         }
@@ -119,7 +119,7 @@ public class CommonHttpUtils {
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
-                        Log.d(TAG, "Get " + url + " failed:" + msg);
+                        LogUtil.d(TAG, "Get " + url + " failed:" + msg);
                         printParams(params);
                         boolean findCache = false;
                         // 获取失败，寻找cache

@@ -1,4 +1,4 @@
-package cn.iam007.utils;
+package cn.iam007.common.utils;
 
 import org.json.JSONObject;
 

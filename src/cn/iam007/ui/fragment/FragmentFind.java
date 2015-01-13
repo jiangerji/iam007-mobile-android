@@ -9,13 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import cn.iam007.HttpExceptionButFoundCache;
 import cn.iam007.R;
+import cn.iam007.common.exception.HttpExceptionButFoundCache;
+import cn.iam007.common.utils.CommonHttpUtils;
+import cn.iam007.common.utils.logging.LogUtil;
 import cn.iam007.model.ContentInfo;
 import cn.iam007.ui.adapter.FindAdapter;
 import cn.iam007.ui.widget.RecommendAdsLayout;
-import cn.iam007.utils.CommonHttpUtils;
-import cn.iam007.utils.logging.LogUtil;
 
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;

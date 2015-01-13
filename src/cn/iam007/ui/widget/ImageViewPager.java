@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
-import cn.iam007.utils.ImageUtils;
+import cn.iam007.common.utils.ImageUtils;
 
 @SuppressLint("UseSparseArrays")
 public class ImageViewPager extends RelativeLayout {

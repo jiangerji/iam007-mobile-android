@@ -13,8 +13,11 @@ import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 import cn.iam007.R;
+import cn.iam007.common.utils.logging.LogUtil;
 import cn.iam007.ui.activity.BaseActivity;
 import cn.iam007.ui.adapter.MyFragmentPagerAdapter;
+
+import com.baidu.mobstat.StatService;
 
 public class TestMainActivity extends BaseActivity {
     private MyFragmentPagerAdapter mMyFragmentPagerAdapter;
@@ -134,7 +137,41 @@ public class TestMainActivity extends BaseActivity {
         }
     }
 
+    private boolean mBackFromOtherPlace = false;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCurrentPageIndex >= 0 && mBackFromOtherPlace) {
+            StatService.onPageStart(this, "fragment:" + mCurrentPageIndex);
+            LogUtil.d("service", "page start " + mCurrentPageIndex);
+        }
+        mBackFromOtherPlace = false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mBackFromOtherPlace = true;
+        if (mCurrentPageIndex >= 0) {
+            LogUtil.d("service", "page end " + mCurrentPageIndex);
+            StatService.onPageEnd(this, "fragment:" + mCurrentPageIndex);
+        }
+    }
+
+    private int mCurrentPageIndex = -1;
+
     private void setCurrentPage(int index) {
+        if (mCurrentPageIndex != index) {
+            if (mCurrentPageIndex >= 0) {
+                LogUtil.d("service", "page end " + mCurrentPageIndex);
+                StatService.onPageEnd(this, "fragment:" + mCurrentPageIndex);
+            }
+            LogUtil.d("service", "page start " + index);
+            StatService.onPageStart(this, "fragment:" + index);
+            mCurrentPageIndex = index;
+        }
+
         if (index >= 0 && index < mFragmentPagerAdapter.getCount()) {
             mPager.setCurrentItem(index, false);
             mAccountBtn.setSelected(false);

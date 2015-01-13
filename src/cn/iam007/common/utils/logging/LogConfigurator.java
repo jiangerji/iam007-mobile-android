@@ -1,4 +1,4 @@
-package cn.iam007.utils.logging;
+package cn.iam007.common.utils.logging;
 
 import java.io.IOException;
 

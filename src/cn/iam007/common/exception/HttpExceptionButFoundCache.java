@@ -1,4 +1,4 @@
-package cn.iam007;
+package cn.iam007.common.exception;
 
 import com.lidroid.xutils.exception.HttpException;
 
