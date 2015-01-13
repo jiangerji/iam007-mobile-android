@@ -5,11 +5,10 @@
     android:orientation="vertical"
     android:paddingBottom="5dp" >
 
-    <cn.iam007.ui.widget.ChildViewPager
+    <cn.iam007.app.mall.widget.ChildViewPager
         android:id="@+id/adv_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </cn.iam007.ui.widget.ChildViewPager>
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,11 +34,10 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <cn.iam007.ui.widget.BottomIndicator
+        <cn.iam007.app.mall.widget.BottomIndicator
             android:id="@+id/indicator"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </cn.iam007.ui.widget.BottomIndicator>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

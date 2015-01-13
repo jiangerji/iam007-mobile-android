@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.iam007"
+    package="cn.iam007.app.mall"
     android:versionCode="10000"
     android:versionName="1.0" >
 
@@ -25,22 +25,22 @@
         android:theme="@style/AppTheme" android:name="IAM007Application">
         
         <activity
-            android:name="cn.iam007.test.TestMainActivity"
+            android:name="cn.iam007.app.mall.TestMainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity 
-            android:name=".ui.activity.ContentActivity" 
+            android:name="cn.iam007.app.mall.content.ContentActivity" 
             android:screenOrientation="portrait">
             
         </activity>
         <activity 
-            android:name=".ui.activity.WebViewActivity" 
+            android:name="cn.iam007.app.mall.webview.WebViewActivity" 
             android:screenOrientation="portrait">
             
         </activity>
         <activity 
-            android:name=".ui.activity.WelcomeActivity" 
+            android:name="cn.iam007.app.mall.welcome.WelcomeActivity" 
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
@@ -53,7 +53,7 @@
         <!-- 您从百度网站获取的APP KEY -->
         <meta-data
             android:name="BaiduMobAd_STAT_ID"
-            android:value="c2677ed3b7" />
+            android:value="453ffda409" />
         <!-- 是否开启错误日志统计，默认为false -->
         <meta-data
             android:name="BaiduMobAd_EXCEPTION_LOG"

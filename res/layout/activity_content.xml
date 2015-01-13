@@ -161,7 +161,7 @@
                 android:textColor="@color/text_grey_color"
                 android:textSize="16sp" />
                 
-            <cn.iam007.ui.widget.WebViewWrapper
+            <cn.iam007.app.mall.widget.WebViewWrapper
                 android:id="@+id/webContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
