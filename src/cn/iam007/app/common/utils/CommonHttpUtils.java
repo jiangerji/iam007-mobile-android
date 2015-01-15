@@ -8,10 +8,10 @@ import java.io.IOException;
 import org.apache.http.NameValuePair;
 
 import android.text.TextUtils;
+import cn.iam007.app.common.cache.CacheConfiguration;
 import cn.iam007.app.common.config.AppConstants;
 import cn.iam007.app.common.exception.HttpExceptionButFoundCache;
 import cn.iam007.app.common.utils.logging.LogUtil;
-import cn.iam007.app.mall.IAM007Application;
 
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
@@ -98,8 +98,7 @@ public class CommonHttpUtils {
                             if (!TextUtils.isEmpty(cacheKey)) {
                                 String cacheName = md5.generate(cacheKey);
 
-                                File file = new File(IAM007Application.getCurrentApplication()
-                                        .getExternalCacheDir(),
+                                File file = new File(CacheConfiguration.getExtCacheDirHttp(null),
                                         cacheName);
                                 FileOutputStream fos = new FileOutputStream(file);
                                 fos.write(responseInfo.result.getBytes());
@@ -129,8 +128,7 @@ public class CommonHttpUtils {
                             if (!TextUtils.isEmpty(cacheKey)) {
                                 String cacheName = md5.generate(cacheKey);
 
-                                File file = new File(IAM007Application.getCurrentApplication()
-                                        .getExternalCacheDir(),
+                                File file = new File(CacheConfiguration.getExtCacheDirHttp(null),
                                         cacheName);
                                 fis = new FileInputStream(file);
                                 byte[] buffer = new byte[10240];

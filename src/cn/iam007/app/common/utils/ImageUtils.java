@@ -1,10 +1,15 @@
 package cn.iam007.app.common.utils;
 
+import java.io.File;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.widget.ImageView;
+import cn.iam007.app.common.cache.CacheConfiguration;
 import cn.iam007.app.mall.widget.CircleBitmapDisplayer;
 
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -17,10 +22,16 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 public class ImageUtils {
 
     public static void init(Context context) {
+        // 设置图片的缓存的位置
+        File cacheDir = CacheConfiguration.getExtCacheDirImage(context);
+        File reserveCacheDir = CacheConfiguration.getInternalCacheDirImage(context);
+        UnlimitedDiscCache discCache = new UnlimitedDiscCache(cacheDir,
+                reserveCacheDir, new Md5FileNameGenerator());
+
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
                 context).threadPriority(Thread.NORM_PRIORITY + 1)
                 .threadPoolSize(5).denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new WeakMemoryCache())
+                .memoryCache(new WeakMemoryCache()).diskCache(discCache)
                 .tasksProcessingOrder(QueueProcessingType.LIFO).build();
 
         // Initialize ImageLoader with configuration.
