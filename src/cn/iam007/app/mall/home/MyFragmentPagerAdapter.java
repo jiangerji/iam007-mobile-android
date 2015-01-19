@@ -8,12 +8,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import cn.iam007.app.common.utils.logging.LogUtil;
 import cn.iam007.app.mall.dynamic.DynamicFragment;
 import cn.iam007.app.mall.personel.TestBlankFragment;
+import cn.iam007.app.mall.plugin.PluginViewerFragment;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     private Hashtable<Integer, Fragment> mFragmentTable = new Hashtable<Integer, Fragment>();
 
     private Class<?> mFragmentClass[] = { HomeFragment.class,
-            DynamicFragment.class, TestBlankFragment.class,
+            DynamicFragment.class, PluginViewerFragment.class,
             TestBlankFragment.class };
 
     public MyFragmentPagerAdapter(FragmentManager fm) {

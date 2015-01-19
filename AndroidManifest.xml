@@ -85,6 +85,10 @@
             android:name="app_channel"
             android:value="offical" />
         
+        <activity android:name=".plugin.base.PluginActivity">
+            
+        </activity>
+        
     </application>
 
 </manifest>

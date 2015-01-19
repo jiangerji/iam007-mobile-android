@@ -55,4 +55,17 @@ public class CacheConfiguration {
 
         return cacheFile;
     }
+
+    private final static String CACHE_DIR_PLUGIN = "plugin";
+
+    public static File getCacheDirPlugin() {
+        Context context = IAM007Application.getCurrentApplication();
+
+        File cacheFile = new File(context.getFilesDir(), CACHE_DIR_PLUGIN);
+        if (!cacheFile.isDirectory()) {
+            cacheFile.mkdirs();
+        }
+
+        return cacheFile;
+    }
 }

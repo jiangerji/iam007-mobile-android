@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/plugin_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:numColumns="3"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:background="@color/fragment_bg_color"
+    android:listSelector="@android:color/transparent"
+    android:gravity="center"
+    android:scrollbars="none"
+    android:stretchMode="columnWidth"
+     />

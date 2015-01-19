@@ -169,4 +169,30 @@ public class CommonHttpUtils {
                     }
                 });
     }
+
+    public interface DownloadCallback {
+        // 下载成功
+        public void onFinish(boolean state, File file);
+    }
+
+    public static void download(
+            String url, String target, final DownloadCallback callback) {
+        HttpUtils httpUtils = new HttpUtils();
+        httpUtils.download(url, target, new RequestCallBack<File>() {
+
+            @Override
+            public void onFailure(HttpException arg0, String arg1) {
+                if (callback != null) {
+                    callback.onFinish(false, null);
+                }
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<File> arg0) {
+                if (callback != null) {
+                    callback.onFinish(true, arg0.result);
+                }
+            }
+        });
+    }
 }

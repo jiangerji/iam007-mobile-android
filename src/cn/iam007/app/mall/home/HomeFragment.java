@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import cn.iam007.app.common.exception.HttpExceptionButFoundCache;
 import cn.iam007.app.common.model.ContentInfo;
@@ -16,6 +20,7 @@ import cn.iam007.app.common.utils.logging.LogUtil;
 import cn.iam007.app.mall.R;
 import cn.iam007.app.mall.base.BaseFragment;
 import cn.iam007.app.mall.dynamic.DynamicAdapter;
+import cn.iam007.app.mall.plugin.base.PluginActivity;
 import cn.iam007.app.mall.widget.RecommendAdsLayout;
 
 import com.lidroid.xutils.exception.HttpException;
@@ -37,6 +42,21 @@ public class HomeFragment extends BaseFragment {
 
         mListView = (ListView) view.findViewById(R.id.find_list);
         mListView.addHeaderView(viewpagerLayout.getView());
+
+        mListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(
+                    AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), PluginActivity.class);
+                intent.setData(Uri.parse("app://helloworld"));
+                intent.putExtra("pluginId",
+                        "sample.helloworld.20130703.1");
+                startActivity(intent);
+            }
+
+        });
 
         mFindAdapter = new DynamicAdapter();
         mListView.setAdapter(mFindAdapter);

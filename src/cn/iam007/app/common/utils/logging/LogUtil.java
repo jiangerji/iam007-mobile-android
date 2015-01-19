@@ -22,7 +22,12 @@ public class LogUtil {
         if (AppConstants.LOGGER_ENABLE) {
             StackTraceElement[] elements = Thread.currentThread()
                     .getStackTrace();
-            String tag = elements[1].getClass().getName();
+            String filename = elements[3].getFileName();
+            int index = filename.indexOf(".");
+            String tag = filename;
+            if (index >= 0) {
+                tag = filename.substring(0, index);
+            }
 
             d(tag, msg);
         }
