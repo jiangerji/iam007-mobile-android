@@ -191,6 +191,9 @@ public class PluginResources {
 
     static final HashMap<String, PluginResources> loaders = new HashMap<String, PluginResources>();
 
+    /**
+     * return null if not available on the disk
+     */
     public static PluginResources getResources(PluginFileSpec file) {
         PluginResources rl = loaders.get(file.getPluginId());
         if (rl != null)
@@ -198,7 +201,7 @@ public class PluginResources {
 
         File dir = CacheConfiguration.getCacheDirPlugin();
         dir = new File(dir, file.getPluginId());
-        File path = new File(dir, file.getPluginMD5());
+        File path = new File(dir, file.getPluginMD5() + ".apk");
         if (!path.isFile())
             return null;
 
@@ -216,9 +219,7 @@ public class PluginResources {
                 switch (eventType) {
                 case XmlPullParser.START_TAG:
                     if ("manifest".equals(xml.getName())) {
-                        packageName = xml.getAttributeValue(
-                                "http://schemas.android.com/apk/res/android",
-                                "package");
+                        packageName = xml.getAttributeValue(null, "package");
                         break xmlloop;
                     }
                 }
@@ -246,81 +247,6 @@ public class PluginResources {
         loaders.put(file.getPluginId(), rl);
         return rl;
     }
-
-    /**
-     * return null if not available on the disk
-     */
-    //    public static PluginResources getResource(SiteSpec site, FileSpec file) {
-    //        PluginResources rl = loaders.get(file.id());
-    //        if (rl != null)
-    //            return rl;
-    //
-    //        String[] deps = file.deps();
-    //        PluginResources[] rs = null;
-    //        if (deps != null) {
-    //            rs = new PluginResources[deps.length];
-    //            for (int i = 0; i < deps.length; i++) {
-    //                FileSpec pf = site.getFile(deps[i]);
-    //                if (pf == null)
-    //                    return null;
-    //                PluginResources r = getResource(site, pf);
-    //                if (r == null)
-    //                    return null;
-    //                rs[i] = r;
-    //            }
-    //        }
-    //
-    //        File dir = CacheConfiguration.getCacheDirPlugin();
-    //        dir = new File(dir, file.id());
-    //        File path = new File(dir, TextUtils.isEmpty(file.md5()) ? "1.apk"
-    //                : file.md5() + ".apk");
-    //        if (!path.isFile())
-    //            return null;
-    //
-    //        try {
-    //            AssetManager am = (AssetManager) AssetManager.class.newInstance();
-    //            am.getClass().getMethod("addAssetPath", String.class)
-    //                    .invoke(am, path.getAbsolutePath());
-    //
-    //            // parse packageName from AndroidManifest.xml
-    //            String packageName = null;
-    //            XmlResourceParser xml = am
-    //                    .openXmlResourceParser("AndroidManifest.xml");
-    //            int eventType = xml.getEventType();
-    //            xmlloop: while (eventType != XmlPullParser.END_DOCUMENT) {
-    //                switch (eventType) {
-    //                case XmlPullParser.START_TAG:
-    //                    if ("manifest".equals(xml.getName())) {
-    //                        packageName = xml.getAttributeValue(
-    //                                "http://schemas.android.com/apk/res/android",
-    //                                "package");
-    //                        break xmlloop;
-    //                    }
-    //                }
-    //                eventType = xml.nextToken();
-    //            }
-    //            xml.close();
-    //            if (packageName == null) {
-    //                throw new RuntimeException(
-    //                        "package not found in AndroidManifest.xml [" + path
-    //                                + "]");
-    //            }
-    //
-    //            Resources superRes = IAM007Application.getCurrentApplication()
-    //                    .getResources();
-    //            Resources res = new Resources(am, superRes.getDisplayMetrics(),
-    //                    superRes.getConfiguration());
-    //
-    //            rl = new PluginResources(file, packageName, res, am, rs);
-    //        } catch (Exception e) {
-    //            if (e instanceof RuntimeException)
-    //                throw (RuntimeException) e;
-    //            throw new RuntimeException(e);
-    //        }
-    //
-    //        loaders.put(file.id(), rl);
-    //        return rl;
-    //    }
 
     /**
      * 从当前类所在的包载入MyResource

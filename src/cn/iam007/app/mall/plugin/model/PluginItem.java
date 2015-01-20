@@ -4,13 +4,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.text.TextUtils;
 import cn.iam007.app.common.cache.CacheConfiguration;
@@ -19,12 +23,16 @@ import cn.iam007.app.common.utils.CommonHttpUtils.DownloadCallback;
 import cn.iam007.app.common.utils.FileUtils;
 import cn.iam007.app.common.utils.logging.LogUtil;
 import cn.iam007.app.mall.IAM007Application;
+import cn.iam007.app.mall.plugin.PluginManager;
 import cn.iam007.app.mall.plugin.base.PluginActivity;
+import cn.iam007.app.mall.plugin.base.PluginConstants;
+import cn.iam007.app.mall.plugin.dynamicloader.PluginResources;
 
 public class PluginItem {
 
     // plugin unique id
     private String pluginId;
+
     // the name of the plugin
     private String pluginName;
 
@@ -78,7 +86,7 @@ public class PluginItem {
         this.pluginParams = params.toString();
     }
 
-    public void init(JSONObject params) {
+    private void init(JSONObject params) {
         this.pluginId = params.optString("id");
         this.pluginName = params.optString("name");
         this.pluginDesc = params.optString("desc");
@@ -88,6 +96,59 @@ public class PluginItem {
         this.pluginType = params.optString("type");
         this.pluginVersion = params.optString("version");
         this.pluginForceUpdate = params.optBoolean("forceUpdate", false);
+
+        mPluginFileSpec = new PluginFileSpec(this.pluginId,
+                this.pluginUrl,
+                this.pluginMD5,
+                null);
+
+        PluginManager.addPluginItem(this);
+    }
+
+    /**
+     * @return the mFragmentSpecs
+     */
+    public ArrayList<PluginFragmentSpec> getFragmentSpecs() {
+        return mFragmentSpecs;
+    }
+
+    /**
+     * @param mFragmentSpecs
+     *            the mFragmentSpecs to set
+     */
+    public void setFragmentSpecs(ArrayList<PluginFragmentSpec> mFragmentSpecs) {
+        this.mFragmentSpecs = mFragmentSpecs;
+    }
+
+    /**
+     * 获取指定的code的fragment
+     * 
+     * @param code
+     */
+    public PluginFragmentSpec getFragment(String code) {
+        PluginFragmentSpec result = null;
+        for (PluginFragmentSpec fragmentSpec : mFragmentSpecs) {
+            if (fragmentSpec.code().equalsIgnoreCase(code)) {
+                result = fragmentSpec;
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * @return the mPluginFileSpec
+     */
+    public PluginFileSpec getPluginFileSpec() {
+        return mPluginFileSpec;
+    }
+
+    /**
+     * @param mPluginFileSpec
+     *            the mPluginFileSpec to set
+     */
+    public void setPluginFileSpec(PluginFileSpec mPluginFileSpec) {
+        this.mPluginFileSpec = mPluginFileSpec;
     }
 
     /**
@@ -184,7 +245,8 @@ public class PluginItem {
         return validation;
     }
 
-    private String pluginInstalledPath = null; // plugin apk安装的地址
+    // plugin apk安装的地址
+    private String pluginInstalledPath = null;
 
     /**
      * 获取plugin安装的地址，主要是apk存放的目录路径
@@ -259,6 +321,7 @@ public class PluginItem {
                         @Override
                         public void onFinish(boolean state, File file) {
                             LogUtil.d("download finish:" + state + " " + file);
+                            initFragmentSpecs();
                         }
                     });
 
@@ -284,11 +347,60 @@ public class PluginItem {
                 fos = null;
             }
 
+        } else {
+            // 解析apk中插件配置数据，
+            initFragmentSpecs();
+        }
+    }
+
+    /**
+     * 该插件所配置的fragment界面列表
+     */
+    private ArrayList<PluginFragmentSpec> mFragmentSpecs = null;
+
+    private void initFragmentSpecs() {
+        if (mFragmentSpecs == null) {
+            mFragmentSpecs = new ArrayList<PluginFragmentSpec>();
+        } else {
+            return;
         }
 
-        // 解析apk中插件配置数据，
+        //        PluginFileSpec fileSpec = new PluginFileSpec(this.pluginId,
+        //                this.pluginUrl,
+        //                this.pluginMD5,
+        //                null);
+        PluginResources pluginResources = PluginResources.getResources(mPluginFileSpec);
+        AssetManager assetManager = pluginResources.getAssets();
+        try {
+            InputStream is = assetManager.open("plugin.properties");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
 
+            JSONObject object = new JSONObject(new String(buffer, "utf-8"));
+            JSONArray fragments = object.getJSONArray("fragments");
+            JSONObject fragment = null;
+            String fragmentName = null;
+            String fragmentCode = null;
+            for (int i = 0; i < fragments.length(); i++) {
+                fragment = fragments.getJSONObject(i);
+                fragmentName = fragment.optString("name");
+                fragmentCode = fragment.optString("code");
+
+                mFragmentSpecs.add(new PluginFragmentSpec(fragmentCode,
+                        fragmentName));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * 插件文件spec
+     */
+    private PluginFileSpec mPluginFileSpec = null;
 
     /**
      * 启动插件，返回是否启动成功
@@ -299,16 +411,21 @@ public class PluginItem {
     public boolean start(Context context) {
         boolean result = false;
 
+        PluginFragmentSpec pluginFragmentSpec = mFragmentSpecs.get(0);
+
         Intent intent = new Intent();
         intent.setClass(context, PluginActivity.class);
-        intent.setData(Uri.parse("app://" + this.pluginId));
-        //        intent.putExtra("pluginId",
-        //                "sample.helloworld.20130703.1");
-        PluginFileSpec fileSpec = new PluginFileSpec(this.pluginId,
-                this.pluginUrl,
-                this.pluginMD5,
-                null);
-        intent.putExtra("_fileSpec", fileSpec);
+        Uri uri = Uri.fromParts(PluginConstants.PRIMARY_SCHEME,
+                pluginFragmentSpec.code(), null);
+        intent.setData(uri);
+        //        PluginFileSpec fileSpec = new PluginFileSpec(this.pluginId,
+        //                this.pluginUrl,
+        //                this.pluginMD5,
+        //                null);
+        intent.putExtra("_pluginId", this.pluginId);
+        //        intent.putExtra("_fileSpec", mPluginFileSpec);
+        //        intent.putParcelableArrayListExtra("_fragmentSpecs", mFragmentSpecs);
+        intent.putExtra("_fragment", mFragmentSpecs.get(0).name());
 
         context.startActivity(intent);
 

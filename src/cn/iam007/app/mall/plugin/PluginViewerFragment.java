@@ -48,7 +48,7 @@ public class PluginViewerFragment extends BaseFragment {
             @Override
             public void onItemClick(
                     AdapterView<?> parent, View view, int position, long id) {
-                PluginItem pluginItem = mAdapter.getItem(0);
+                PluginItem pluginItem = mAdapter.getItem((int) id);
                 pluginItem.start(getActivity());
             }
         });

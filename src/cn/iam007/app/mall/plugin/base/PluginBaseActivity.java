@@ -5,7 +5,12 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import cn.iam007.app.mall.plugin.PluginManager;
+import cn.iam007.app.mall.plugin.model.PluginFileSpec;
+import cn.iam007.app.mall.plugin.model.PluginFragmentSpec;
+import cn.iam007.app.mall.plugin.model.PluginItem;
 
 /**
  * 主Activity容器，负责启动并装载Fragment
@@ -21,6 +26,31 @@ import android.support.v4.app.FragmentActivity;
  * 
  */
 public class PluginBaseActivity extends FragmentActivity {
+
+    //    ArrayList<PluginFragmentSpec> mFragmentSpecs = null;
+    private String mPluginId;
+    protected PluginFileSpec mPluginFileSpec;
+
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+
+        Intent intent = getIntent();
+
+        mPluginId = intent.getStringExtra("_pluginId");
+        mPluginFileSpec = PluginManager.getPluginItem(mPluginId)
+                .getPluginFileSpec();
+        //
+        //        mFragmentSpecs = intent.getParcelableArrayListExtra("_fragmentSpecs");
+    }
+
+    protected PluginFileSpec getPluginFileSpec() {
+        return mPluginFileSpec;
+    }
+
+    public final String getPluginId() {
+        return mPluginId;
+    }
 
     /**
      * 读取插件的配置文件
@@ -109,6 +139,42 @@ public class PluginBaseActivity extends FragmentActivity {
         //            }
         //
         //        } while (false);
+
+        boolean validation = false;
+
+        do {
+            Uri uri = intent.getData();
+            if (uri == null) {
+                break;
+            }
+
+            if (uri.getScheme() == null) {
+                break;
+            }
+
+            if (!(PluginConstants.PRIMARY_SCHEME.equalsIgnoreCase(uri.getScheme()))) {
+                break;
+            }
+
+            PluginItem pluginItem = PluginManager.getPluginItem(mPluginId);
+            if (pluginItem == null) {
+                break;
+            }
+            //            PluginFileSpec pluginFileSpec = pluginItem.getPluginFileSpec();
+            String fragmentCode = uri.getHost();
+            PluginFragmentSpec fragmentSpec = pluginItem.getFragment(fragmentCode);
+
+            intent = new Intent();
+            intent.setClass(this, PluginActivity.class);
+            intent.setData(uri);
+            intent.putExtra("_pluginId", mPluginId);
+            //        intent.putExtra("_fileSpec", mPluginFileSpec);
+            //        intent.putParcelableArrayListExtra("_fragmentSpecs", mFragmentSpecs);
+            intent.putExtra("_fragment", fragmentSpec.name());
+
+            validation = true;
+
+        } while (false);
 
         return intent;
     }

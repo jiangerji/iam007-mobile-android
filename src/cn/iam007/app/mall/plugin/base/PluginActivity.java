@@ -1,15 +1,15 @@
 package cn.iam007.app.mall.plugin.base;
 
-import android.annotation.SuppressLint;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -18,7 +18,6 @@ import cn.iam007.app.mall.plugin.dynamicloader.PluginClassLoader;
 import cn.iam007.app.mall.plugin.dynamicloader.PluginResources;
 import cn.iam007.app.mall.plugin.model.PluginFileSpec;
 
-@SuppressLint("NewApi")
 public class PluginActivity extends PluginBaseActivity {
 
     //    private SiteSpec site;
@@ -34,12 +33,14 @@ public class PluginActivity extends PluginBaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //        Intent intent = baseUrlMap(getIntent());
+        super.onCreate(savedInstanceState);
+
+        //      Intent intent = baseUrlMap(getIntent());
         Intent intent = getIntent();
         //
         int error = 0;
 
-        PluginFileSpec fileSpec = intent.getParcelableExtra("_fileSpec");
+        PluginFileSpec fileSpec = getPluginFileSpec();
 
         // must be load at the first start
         do {
@@ -49,13 +50,12 @@ public class PluginActivity extends PluginBaseActivity {
             //                break;
             //            }
 
-            //            fragmentName = intent.getStringExtra("_fragment");
-            //            if (TextUtils.isEmpty(fragmentName)) {
-            //                error = 202; // #202
-            //                break;
-            //            }
             // TODO: 获取启动的fragment类名
-            fragmentName = "sample.helloworld.HelloFragment";
+            fragmentName = intent.getStringExtra("_fragment");
+            if (TextUtils.isEmpty(fragmentName)) {
+                error = 202; // #202
+                break;
+            }
 
             //            String code = intent.getStringExtra("_code");
             //            if (TextUtils.isEmpty(code)) {
@@ -75,8 +75,6 @@ public class PluginActivity extends PluginBaseActivity {
                 break;
             }
         } while (false);
-
-        super.onCreate(savedInstanceState);
 
         rootView = new FrameLayout(this);
         rootView.setLayoutParams(new ViewGroup.LayoutParams(
@@ -119,7 +117,7 @@ public class PluginActivity extends PluginBaseActivity {
             return;
         }
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(android.R.id.primary, fragment);
         ft.commit();
@@ -129,14 +127,6 @@ public class PluginActivity extends PluginBaseActivity {
     public ClassLoader getClassLoader() {
         return classLoader == null ? super.getClassLoader() : classLoader;
     }
-
-    //    public SiteSpec getSite() {
-    //        return site;
-    //    }
-
-    //    public FileSpec getFile() {
-    //        return file;
-    //    }
 
     public String getFragmentName() {
         return fragmentName;
@@ -195,6 +185,11 @@ public class PluginActivity extends PluginBaseActivity {
             t.setTo(getTheme());
             this.theme = t;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+        super.onActivityResult(arg0, arg1, arg2);
     }
 
 }

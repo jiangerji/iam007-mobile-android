@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="cn/iam007/app/mall/plugin/model/FileSpec.java|cn/iam007/app/mall/plugin/model/SiteSpec.java" kind="src" path="src"/>
+	<classpathentry excluding="cn/iam007/app/mall/plugin/model/FileSpec.java|cn/iam007/app/mall/plugin/model/SiteSpec.java|cn/iam007/app/mall/plugin/model/FragmentSpec.java" kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
