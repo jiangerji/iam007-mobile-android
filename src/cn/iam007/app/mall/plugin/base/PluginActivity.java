@@ -17,6 +17,7 @@ import android.widget.TextView;
 import cn.iam007.app.mall.plugin.dynamicloader.PluginClassLoader;
 import cn.iam007.app.mall.plugin.dynamicloader.PluginResources;
 import cn.iam007.app.mall.plugin.model.PluginFileSpec;
+import cn.iam007.app.mall.plugin.model.PluginFragmentSpec;
 
 public class PluginActivity extends PluginBaseActivity {
 
@@ -35,43 +36,31 @@ public class PluginActivity extends PluginBaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //      Intent intent = baseUrlMap(getIntent());
         Intent intent = getIntent();
-        //
         int error = 0;
 
         PluginFileSpec fileSpec = getPluginFileSpec();
 
         // must be load at the first start
         do {
-            //            site = intent.getParcelableExtra("_site");
-            //            if (site == null) {
-            //                error = 201; // #201
-            //                break;
-            //            }
+            // 获取需要启动的fragment spec
+            PluginFragmentSpec fragmentSpec = intent.getParcelableExtra("_fragment");
 
-            // TODO: 获取启动的fragment类名
-            fragmentName = intent.getStringExtra("_fragment");
+            // 设置标题
+            setTitle(fragmentSpec.title());
+
+            fragmentName = fragmentSpec.name();
             if (TextUtils.isEmpty(fragmentName)) {
-                error = 202; // #202
+                // TODO: 没有设置启动fragment
+                error = 202;
                 break;
             }
 
-            //            String code = intent.getStringExtra("_code");
-            //            if (TextUtils.isEmpty(code)) {
-            //                loaded = true;
-            //                break;
-            //            }
-            //            file = site.getFile(code);
-            //            if (file == null) {
-            //                error = 205; // #205
-            //                break;
-            //            }
-            //            classLoader = PluginClassLoader.getClassLoader(site, file);
             classLoader = PluginClassLoader.getClassLoader(fileSpec);
             loaded = classLoader != null;
             if (!loaded) {
-                error = 210; // #210
+                // TODO: 加载插件class出现异常
+                error = 210;
                 break;
             }
         } while (false);
@@ -103,6 +92,7 @@ public class PluginActivity extends PluginBaseActivity {
             fragment = (Fragment) getClassLoader().loadClass(fragmentName)
                     .newInstance();
         } catch (Exception e) {
+            // TODO: 初始化fragment出现异常
             loaded = false;
             classLoader = null;
             error = 211; // #211
@@ -143,10 +133,6 @@ public class PluginActivity extends PluginBaseActivity {
                 break;
             if (!(PluginConstants.PRIMARY_SCHEME.equalsIgnoreCase(uri.getScheme())))
                 break;
-
-            //            if (!intent.hasExtra("_site")) {
-            //                intent.putExtra("_site", site);
-            //            }
         } while (false);
 
         return super.urlMap(intent);

@@ -365,10 +365,6 @@ public class PluginItem {
             return;
         }
 
-        //        PluginFileSpec fileSpec = new PluginFileSpec(this.pluginId,
-        //                this.pluginUrl,
-        //                this.pluginMD5,
-        //                null);
         PluginResources pluginResources = PluginResources.getResources(mPluginFileSpec);
         AssetManager assetManager = pluginResources.getAssets();
         try {
@@ -381,13 +377,17 @@ public class PluginItem {
             JSONObject fragment = null;
             String fragmentName = null;
             String fragmentCode = null;
+            String fragmentTitle = null;
             for (int i = 0; i < fragments.length(); i++) {
                 fragment = fragments.getJSONObject(i);
                 fragmentName = fragment.optString("name");
                 fragmentCode = fragment.optString("code");
+                fragmentTitle = fragment.optString("title", this.pluginName);
 
-                mFragmentSpecs.add(new PluginFragmentSpec(fragmentCode,
-                        fragmentName));
+                PluginFragmentSpec fragmentSpec = new PluginFragmentSpec(fragmentCode,
+                        fragmentName);
+                fragmentSpec.setTitle(fragmentTitle);
+                mFragmentSpecs.add(fragmentSpec);
             }
 
         } catch (IOException e) {
@@ -418,14 +418,8 @@ public class PluginItem {
         Uri uri = Uri.fromParts(PluginConstants.PRIMARY_SCHEME,
                 pluginFragmentSpec.code(), null);
         intent.setData(uri);
-        //        PluginFileSpec fileSpec = new PluginFileSpec(this.pluginId,
-        //                this.pluginUrl,
-        //                this.pluginMD5,
-        //                null);
         intent.putExtra("_pluginId", this.pluginId);
-        //        intent.putExtra("_fileSpec", mPluginFileSpec);
-        //        intent.putParcelableArrayListExtra("_fragmentSpecs", mFragmentSpecs);
-        intent.putExtra("_fragment", mFragmentSpecs.get(0).name());
+        intent.putExtra("_fragment", mFragmentSpecs.get(0));
 
         context.startActivity(intent);
 

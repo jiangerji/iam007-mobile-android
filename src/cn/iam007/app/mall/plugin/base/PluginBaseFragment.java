@@ -53,7 +53,7 @@ public class PluginBaseFragment extends Fragment {
             intent.setClass(getActivity(), PluginActivity.class);
             intent.setData(uri);
             intent.putExtra("_pluginId", mPluginId);
-            intent.putExtra("_fragment", fragmentSpec.name());
+            intent.putExtra("_fragment", fragmentSpec);
         } while (false);
 
         return intent;

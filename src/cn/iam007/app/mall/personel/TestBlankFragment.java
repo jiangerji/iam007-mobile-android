@@ -2,14 +2,13 @@ package cn.iam007.app.mall.personel;
 
 import java.util.Random;
 
-import cn.iam007.app.mall.base.BaseFragment;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import cn.iam007.app.mall.base.BaseFragment;
 
 public class TestBlankFragment extends BaseFragment {
 
@@ -24,12 +23,13 @@ public class TestBlankFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onInitView(LayoutInflater inflater, ViewGroup container) {
         FrameLayout blankLayout = new FrameLayout(getActivity());
         blankLayout.setBackgroundColor(randomColor());
         blankLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
+
+        setInitViewFinish();
         return blankLayout;
     }
 }

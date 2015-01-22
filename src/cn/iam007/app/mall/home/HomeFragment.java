@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +17,6 @@ import cn.iam007.app.common.utils.logging.LogUtil;
 import cn.iam007.app.mall.R;
 import cn.iam007.app.mall.base.BaseFragment;
 import cn.iam007.app.mall.dynamic.DynamicAdapter;
-import cn.iam007.app.mall.plugin.base.PluginActivity;
 import cn.iam007.app.mall.widget.RecommendAdsLayout;
 
 import com.lidroid.xutils.exception.HttpException;
@@ -33,8 +29,7 @@ public class HomeFragment extends BaseFragment {
     private DynamicAdapter mFindAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onInitView(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.fragment_find,
                 container,
                 false);// 关联布局文件
@@ -48,12 +43,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemClick(
                     AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PluginActivity.class);
-                intent.setData(Uri.parse("app://helloworld"));
-                intent.putExtra("pluginId",
-                        "sample.helloworld.20130703.1");
-                startActivity(intent);
+
             }
 
         });
@@ -68,8 +58,7 @@ public class HomeFragment extends BaseFragment {
 
     private void init() {
         String action = "latest";
-        //TODO: 暂时没有加入缓存
-        CommonHttpUtils.get(action, null, mCallBack);
+        CommonHttpUtils.get(action, null, mCallBack, "home.latest");
     }
 
     private RequestCallBack<String> mCallBack = new RequestCallBack<String>() {
@@ -78,12 +67,14 @@ public class HomeFragment extends BaseFragment {
         public void onFailure(HttpException error, String msg) {
             if (error instanceof HttpExceptionButFoundCache) {
                 parseResult(msg);
+                setInitViewFinish();
             }
         }
 
         @Override
         public void onSuccess(ResponseInfo<String> responseInfo) {
             parseResult(responseInfo.result);
+            setInitViewFinish();
         }
     };
 

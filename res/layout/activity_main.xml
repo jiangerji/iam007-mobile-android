@@ -138,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/game"
+                android:text="@string/baibaoxiang"
                 android:textColor="@color/panel_title_color"
                 android:textSize="12sp" />
         </LinearLayout>

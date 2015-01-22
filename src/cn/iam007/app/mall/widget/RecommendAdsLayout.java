@@ -68,7 +68,7 @@ public class RecommendAdsLayout {
         initAdapter();
 
         mIndicator = (BottomIndicator) mRootView.findViewById(R.id.indicator);
-        mIndicator.setNumber(mAdapter.getCount());
+        mIndicator.setNumber(mAdapter.getRealCount());
         mIndicator.setSelection(0);
     }
 
@@ -76,8 +76,8 @@ public class RecommendAdsLayout {
 
         @Override
         public void run() {
-            mAdViewPager.setCurrentItem((mAdViewPager.getCurrentItem() + 1)
-                    % mAdapter.getCount(), true);
+            mAdViewPager.setCurrentItem((mAdViewPager.getCurrentItem() + 1),
+                    true);
 
             mHandler.postDelayed(mScrollRunnable, 5000);
         }
@@ -119,6 +119,7 @@ public class RecommendAdsLayout {
     }
 
     private void setAdTitle(int position) {
+        position = position % mAdapter.getRealCount();
         if (position < mAdTitles.size()) {
             mTitle.setText(mAdTitles.get(position));
         }
@@ -158,7 +159,7 @@ public class RecommendAdsLayout {
             if (mAdTitles.size() > position) {
                 mTitle.setText(mAdTitles.get(position));
             }
-            mIndicator.setSelection(position);
+            mIndicator.setSelection(position % mAdapter.getRealCount());
         }
     }
 
@@ -190,6 +191,10 @@ public class RecommendAdsLayout {
         // 获取要滑动的控件的数量，在这里我们以滑动的广告栏为例，那么这里就应该是展示的广告图片的ImageView数量
         @Override
         public int getCount() {
+            return Integer.MAX_VALUE;
+        }
+
+        public int getRealCount() {
             return mAdvCovers.size();
         }
 
@@ -202,12 +207,14 @@ public class RecommendAdsLayout {
         // PagerAdapter只缓存三张要显示的图片，如果滑动的图片超出了缓存的范围，就会调用这个方法，将图片销毁
         @Override
         public void destroyItem(ViewGroup view, int position, Object object) {
+            position = position % mAdvCovers.size();
             view.removeView(images.get(position));
         }
 
         // 当要显示的图片可以进行缓存的时候，会调用这个方法进行显示图片的初始化，我们将要显示的ImageView加入到ViewGroup中，然后作为返回值返回即可
         @Override
         public Object instantiateItem(ViewGroup view, int position) {
+            position = position % mAdvCovers.size();
             ImageView imageView = images.get(position);
             if (mAdvCovers.get(position) != null) {
                 ImageLoader.getInstance()
@@ -220,6 +227,7 @@ public class RecommendAdsLayout {
         }
 
         public void update(int position) {
+            position = position % mAdvCovers.size();
             ImageView imageView = images.get(position);
             if (mAdvCovers.get(position) != null) {
                 ImageLoader.getInstance()

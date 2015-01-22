@@ -102,6 +102,14 @@ public class PluginResources {
     }
 
     /**
+     * 
+     * Resources.getFraction(id, base, pbase)
+     */
+    public float getFraction(int id, int base, int pbase) {
+        return res.getFraction(id, base, pbase);
+    }
+
+    /**
      * Resources.getDimensionPixelSize(id)
      */
     public int getDimensionPixelSize(int id) {

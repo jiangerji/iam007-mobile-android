@@ -32,7 +32,8 @@ public class ImageUtils {
                 context).threadPriority(Thread.NORM_PRIORITY + 1)
                 .threadPoolSize(5).denyCacheImageMultipleSizesInMemory()
                 .memoryCache(new WeakMemoryCache()).diskCache(discCache)
-                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+                .tasksProcessingOrder(QueueProcessingType.LIFO)
+                .build();
 
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config);
@@ -117,5 +118,11 @@ public class ImageUtils {
     public static void showImageByUrl(
             String imageUrl, ImageView imageView, DisplayImageOptions options) {
         ImageLoader.getInstance().displayImage(imageUrl, imageView, options);
+    }
+
+    public static void showImageByUrl(String imageUrl, ImageView imageView) {
+        ImageLoader.getInstance().displayImage(imageUrl,
+                imageView,
+                getOptionsFadeIn());
     }
 }

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import cn.iam007.app.common.utils.PlatformUtils;
 import cn.iam007.app.common.utils.logging.LogUtil;
 import cn.iam007.app.mall.R;
@@ -37,7 +38,18 @@ public class WelcomeActivity extends BaseActivity {
                 parseCheckUpdate(arg1);
             }
         });
+
+        mHandler.postDelayed(mFinishRunnable, 5000);
     }
+
+    private Handler mHandler = new Handler();
+    private Runnable mFinishRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            loadHomeUI();
+        }
+    };
 
     private long mCheckUpdateStart = 0;
     private String mVersion = null; // 更新的版本号
@@ -89,11 +101,6 @@ public class WelcomeActivity extends BaseActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //                        PushService.actionServive(
-                        //                                LKApplication.getApplication(),
-                        //                                PushService.ACTION_DOWNLOAD_LATEST_VERSION);
-                        //                        PlatformUtils.showToast(SettingActivity.this,
-                        //                                R.string.app_downloading);
                         dialog.dismiss();
                         loadHomeUI();
                     }
@@ -118,6 +125,9 @@ public class WelcomeActivity extends BaseActivity {
         Intent intent = new Intent(this, TestMainActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.pre_in, R.anim.pre_out);
+
+        mHandler.removeCallbacks(mFinishRunnable);
+
         finish();
     }
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +33,10 @@ public class DynamicFragment extends BaseFragment {
     private DynamicAdapter mFindAdapter;
 
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onInitView(LayoutInflater inflater, ViewGroup container) {
         mPullRefreshListView = (PullToRefreshListView) inflater.inflate(R.layout.fragment_dynamic,
                 container,
                 false);
-        //                .findViewById(R.id.find_list);
         mPullRefreshListView.setMode(Mode.MANUAL_REFRESH_ONLY);
         mPullRefreshListView.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 
@@ -100,7 +96,7 @@ public class DynamicFragment extends BaseFragment {
         params.addQueryStringParameter("limit", "" + mLimit);
         params.addQueryStringParameter("pn", "" + mIndex);
         //TODO: 暂时没有加入缓存
-        CommonHttpUtils.get(action, params, mCallBack);
+        CommonHttpUtils.get(action, params, mCallBack, "dynamic_latest");
     }
 
     private RequestCallBack<String> mCallBack = new RequestCallBack<String>() {
@@ -110,11 +106,13 @@ public class DynamicFragment extends BaseFragment {
             if (error instanceof HttpExceptionButFoundCache) {
                 parseResult(msg);
             }
+            setInitViewFinish();
         }
 
         @Override
         public void onSuccess(ResponseInfo<String> responseInfo) {
             parseResult(responseInfo.result);
+            setInitViewFinish();
         }
     };
 
