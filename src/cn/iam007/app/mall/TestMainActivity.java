@@ -106,26 +106,6 @@ public class TestMainActivity extends BaseActivity {
             } else if (id == R.id.account_btn) {
                 pageIndex = 3;
             }
-            //            switch (id) {
-            //            case R.id.recomment_btn:
-            //                pageIndex = 0;
-            //                break;
-            //
-            //            case R.id.live_btn:
-            //                pageIndex = 1;
-            //                break;
-            //
-            //            case R.id.game_btn:
-            //                pageIndex = 2;
-            //                break;
-            //
-            //            case R.id.account_btn:
-            //                pageIndex = 3;
-            //                break;
-            //
-            //            default:
-            //                break;
-            //            }
 
             if (pageIndex >= 0 && pageIndex < mFragmentPagerAdapter.getCount()) {
                 setCurrentPage(pageIndex);

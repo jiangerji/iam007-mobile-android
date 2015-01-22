@@ -5,8 +5,8 @@ import org.apache.log4j.Logger;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
 import cn.iam007.app.common.config.AppConstants;
 import cn.iam007.app.common.utils.logging.LogUtil;
 import cn.iam007.app.mall.R;
@@ -24,7 +24,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
 
     protected Dialog mWaitingDialog = null;
 
-    //    private GestureDetector mGestureDetector;
+    private GestureDetector mGestureDetector;
 
     /**
      * 显示等待的dialog
@@ -82,34 +82,62 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
         }
 
         //GestureDetector 
-        //        mGestureDetector = new GestureDetector(this,
-        //                new GestureDetector.SimpleOnGestureListener() {
-        //                    @Override
-        //                    public boolean onFling(MotionEvent e1, MotionEvent e2,
-        //                            float velocityX, float velocityY) {
-        //
-        //                        if (Math.abs(velocityX) < 200) {
-        //                            Log.i(TAG, "移动的太慢了...");
-        //                            return true;
-        //                        }
-        //
-        //                        if (Math.abs(e1.getRawY() - e2.getRawY()) > 200) {
-        //                            Log.i(TAG, "动作非法");
-        //                            return true;
-        //                        }
-        //                        // left
-        //                        if (e1.getRawX() - e2.getRawX() > 200) {
-        //                            showNext();
-        //                            return true;
-        //                        }
-        //                        //right
-        //                        if (e2.getRawX() - e1.getRawX() > 200) {
-        //                            showPre();
-        //                            return true;
-        //                        }
-        //                        return super.onFling(e1, e2, velocityX, velocityY);
-        //                    }
-        //                });
+        mGestureDetector = new GestureDetector(this,
+                new GestureDetector.SimpleOnGestureListener() {
+                    @Override
+                    public boolean onFling(MotionEvent e1, MotionEvent e2,
+                            float velocityX, float velocityY) {
+                        if (mGestureDetectorState) {
+                            float absVelocityX = Math.abs(velocityX);
+                            float absVelocityY = Math.abs(velocityY);
+                            if (absVelocityX >= absVelocityY) {
+                                // 横向滑动
+                                if (absVelocityX > 150) {
+                                    if (velocityX > 0) {
+                                        onFlingRight();
+                                    } else {
+                                        onFlingLeft();
+                                    }
+                                }
+                            } else {
+                                // 竖形滑动
+                                if (absVelocityY > 150) {
+                                    if (velocityY > 0) {
+                                        onFlingBottom();
+                                    } else {
+                                        onFlingTop();
+                                    }
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+                });
+    }
+
+    /**
+     * 手势向上滑动
+     */
+    protected void onFlingTop() {
+    }
+
+    /**
+     * 手势向下滑动
+     */
+    protected void onFlingBottom() {
+    }
+
+    /**
+     * 手势向右滑动
+     */
+    protected void onFlingLeft() {
+    }
+
+    /**
+     * 手势向右滑动
+     */
+    protected void onFlingRight() {
     }
 
     @Override
@@ -176,30 +204,50 @@ public abstract class BaseActivity extends SherlockFragmentActivity {
     }
 
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        //        mGestureDetector.onTouchEvent(ev);
-        super.dispatchTouchEvent(ev);
-        return false;
+        mGestureDetector.onTouchEvent(ev);
+        //        boolean consume = super.dispatchTouchEvent(ev);
+        //        if (consume) {
+        //            LogUtil.d(TAG, "dispatchTouchEvent:" + ev.getAction() + " "
+        //                    + consume);
+        //        }
+        return super.dispatchTouchEvent(ev);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        //        mGestureDetector.onTouchEvent(event);
-        return super.onTouchEvent(event);
+    private boolean mGestureDetectorState = true;
+
+    /**
+     * 将手势失效
+     */
+    public void disableGestureDetector() {
+        mGestureDetectorState = false;
     }
 
-    public void next(View view) {
-        showNext();
+    /**
+     * 开启手势识别
+     */
+    public void enableGestureDetector() {
+        mGestureDetectorState = true;
     }
 
-    public void pre(View view) {
-        showPre();
-    }
+    //    @Override
+    //    public boolean onTouchEvent(MotionEvent event) {
+    //        mGestureDetector.onTouchEvent(event);
+    //        return super.onTouchEvent(event);
+    //    }
 
-    public void showNext() {
-
-    }
-
-    public void showPre() {
-
-    }
+    //    public void next(View view) {
+    //        showNext();
+    //    }
+    //
+    //    public void pre(View view) {
+    //        showPre();
+    //    }
+    //
+    //    public void showNext() {
+    //
+    //    }
+    //
+    //    public void showPre() {
+    //
+    //    }
 }

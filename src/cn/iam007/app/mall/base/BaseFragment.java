@@ -91,9 +91,11 @@ public abstract class BaseFragment extends Fragment {
      */
     protected final void setInitViewFinish() {
         hideLoadingView();
-        mContainer.setVisibility(View.VISIBLE);
-        mContainer.startAnimation(AnimationUtils.loadAnimation(getActivity(),
-                R.anim.pre_in));
+        if (mContainer.getVisibility() == View.INVISIBLE) {
+            mContainer.setVisibility(View.VISIBLE);
+            mContainer.startAnimation(AnimationUtils.loadAnimation(getActivity(),
+                    R.anim.pre_in));
+        }
     }
 
     private boolean mFragmentIsVisible = false;

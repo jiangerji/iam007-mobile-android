@@ -63,4 +63,22 @@ public class WebViewActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onFlingRight() {
+        super.onFlingRight();
+
+        if (mWebContent.canGoBack()) {
+            mWebContent.goBack();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    protected void onFlingLeft() {
+        if (mWebContent.canGoForward()) {
+            mWebContent.goForward();
+        }
+    }
+
 }

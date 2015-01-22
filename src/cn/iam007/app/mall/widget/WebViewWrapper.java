@@ -145,6 +145,20 @@ public class WebViewWrapper extends FrameLayout {
         }
     }
 
+    public boolean canGoForward() {
+        boolean result = false;
+        if (mWebView != null) {
+            result = mWebView.canGoForward();
+        }
+        return result;
+    }
+
+    public void goForward() {
+        if (mWebView != null) {
+            mWebView.goForward();
+        }
+    }
+
     public void refresh() {
         if (mWebView != null) {
             mWebView.reload();

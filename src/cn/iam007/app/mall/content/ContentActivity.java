@@ -115,7 +115,13 @@ public class ContentActivity extends BaseActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int arg0) {
+            public void onPageScrollStateChanged(int state) {
+                LogUtil.d("ss", "onPageScrollStateChanged:" + state);
+                if (state == 1 && mThumbnailsAdapter.getCount() > 1) {
+                    disableGestureDetector();
+                } else {
+                    enableGestureDetector();
+                }
 
             }
         });
@@ -300,6 +306,12 @@ public class ContentActivity extends BaseActivity {
             view.addView(imageView);
             return imageView;
         }
+    }
+
+    @Override
+    protected void onFlingRight() {
+        super.onFlingRight();
+        finish();
     }
 
 }
