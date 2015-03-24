@@ -4,5 +4,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/image_welcome"
     tools:context=".WelcomeActivity" >
+    
+    <ImageView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:contentDescription="@null" />
 
 </RelativeLayout>

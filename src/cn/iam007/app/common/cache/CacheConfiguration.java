@@ -68,4 +68,12 @@ public class CacheConfiguration {
 
         return cacheFile;
     }
+
+    public static String getStartImagePath() {
+        Context context = IAM007Application.getCurrentApplication();
+        File startImageDir = new File(StorageUtils.getCacheDirectory(context),
+                "persist");
+        File startImageFile = new File(startImageDir, "start.image");
+        return startImageFile.getAbsolutePath();
+    }
 }

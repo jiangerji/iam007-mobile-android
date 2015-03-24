@@ -89,7 +89,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 设置初始化view结束
      */
-    protected final void setInitViewFinish() {
+    protected void setInitViewFinish() {
         hideLoadingView();
         if (mContainer.getVisibility() == View.INVISIBLE) {
             mContainer.setVisibility(View.VISIBLE);

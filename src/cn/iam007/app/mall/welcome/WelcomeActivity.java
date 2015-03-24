@@ -1,5 +1,7 @@
 package cn.iam007.app.mall.welcome;
 
+import java.io.File;
+
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
@@ -8,15 +10,17 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import cn.iam007.app.common.utils.PlatformUtils;
+import android.text.TextUtils;
+import android.widget.ImageView;
+import cn.iam007.app.common.cache.CacheConfiguration;
+import cn.iam007.app.common.config.AppConstants;
+import cn.iam007.app.common.utils.CommonHttpUtils;
+import cn.iam007.app.common.utils.CommonHttpUtils.DownloadCallback;
+import cn.iam007.app.common.utils.ImageUtils;
 import cn.iam007.app.common.utils.logging.LogUtil;
 import cn.iam007.app.mall.R;
 import cn.iam007.app.mall.TestMainActivity;
 import cn.iam007.app.mall.base.BaseActivity;
-
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
 
 public class WelcomeActivity extends BaseActivity {
 
@@ -25,19 +29,55 @@ public class WelcomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        ImageView container = (ImageView) findViewById(R.id.container);
+
         mCheckUpdateStart = System.currentTimeMillis();
-        PlatformUtils.checkUpdate(this, new RequestCallBack<String>() {
+        //        PlatformUtils.checkUpdate(this, new RequestCallBack<String>() {
+        //
+        //            @Override
+        //            public void onSuccess(ResponseInfo<String> arg0) {
+        //                parseCheckUpdate(arg0.result);
+        //            }
+        //
+        //            @Override
+        //            public void onFailure(HttpException arg0, String arg1) {
+        //                parseCheckUpdate(arg1);
+        //            }
+        //        });
 
-            @Override
-            public void onSuccess(ResponseInfo<String> arg0) {
-                parseCheckUpdate(arg0.result);
+        final String startImagePath = CacheConfiguration.getStartImagePath();
+
+        if (!TextUtils.isEmpty(startImagePath)) {
+            mHandler.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    String url = AppConstants.HOST
+                            + "iam007/static/start.image";
+                    CommonHttpUtils.download(url,
+                            startImagePath,
+                            new DownloadCallback() {
+
+                                @Override
+                                public void onFinish(boolean state, File file) {
+                                    LogUtil.d("down start image:" + state + " "
+                                            + file);
+                                }
+                            });
+                }
+            }, 1500);
+
+            try {
+                File startImageFile = new File(startImagePath);
+                if (startImageFile.isFile()) {
+                    //                    container.setImageBitmap(BitmapFactory.decodeFile(startImagePath));
+                    ImageUtils.showImageByUrl("file:///" + startImagePath,
+                            container);
+                }
+            } catch (Exception e) {
             }
 
-            @Override
-            public void onFailure(HttpException arg0, String arg1) {
-                parseCheckUpdate(arg1);
-            }
-        });
+        }
 
         mHandler.postDelayed(mFinishRunnable, 5000);
     }
@@ -115,7 +155,12 @@ public class WelcomeActivity extends BaseActivity {
                         loadHomeUI();
                     }
                 });
-        dialog.show();
+        try {
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**

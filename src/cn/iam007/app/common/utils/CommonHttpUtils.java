@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.apache.http.NameValuePair;
 
 import android.text.TextUtils;
+import android.webkit.URLUtil;
 import cn.iam007.app.common.cache.CacheConfiguration;
 import cn.iam007.app.common.config.AppConstants;
 import cn.iam007.app.common.exception.HttpExceptionButFoundCache;
@@ -66,7 +67,11 @@ public class CommonHttpUtils {
             final String action, final RequestParams params,
             final RequestCallBack<String> callBack, final String cacheKey,
             final int cacheExpiry) {
-        final String url = BASE_URL + action;
+        String tempUrl = action;
+        if (!URLUtil.isNetworkUrl(action)) {
+            tempUrl = BASE_URL + action;
+        }
+        final String url = tempUrl;
         HttpUtils http = new HttpUtils();
         http.configCurrentHttpCacheExpiry(1000 * cacheExpiry);
         http.configSoTimeout(1000 * 10);

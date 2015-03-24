@@ -2,6 +2,7 @@
 <resources>
     <color name="text_white_color">#FFFFFFFF</color>
     <color name="divider_blue_color">#FF34D1FB</color>
+    <color name="divider_grey_color">#FFEDEDED</color>
     
     <color name="panel_title_normal_color">#FF9D9D9D</color>
     <color name="panel_title_selected_color">#FF32D0FF</color>
@@ -10,6 +11,7 @@
     <color name="bg_item_normal_color">#FAFAFA</color>
     <color name="bg_item_pressed_color">#F2F2F2</color>
     <color name="text_grey_color">#A0A0A0</color>
+    <color name="text_red_color">#E21B00</color>
     
     <color name="text_bg_grey_color">#C8B1B1B1</color>
     

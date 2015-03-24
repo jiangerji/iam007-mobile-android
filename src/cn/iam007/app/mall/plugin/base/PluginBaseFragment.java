@@ -10,6 +10,8 @@ import cn.iam007.app.mall.plugin.PluginManager;
 import cn.iam007.app.mall.plugin.model.PluginFragmentSpec;
 import cn.iam007.app.mall.plugin.model.PluginItem;
 
+import com.baidu.mobstat.StatService;
+
 public class PluginBaseFragment extends Fragment {
 
     private String mPluginId = null;
@@ -24,6 +26,13 @@ public class PluginBaseFragment extends Fragment {
         }
 
         mPluginId = ((PluginBaseActivity) activity).getPluginId();
+        StatService.onPageStart(getActivity(), "plugin.fragment:" + mPluginId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        StatService.onPageEnd(getActivity(), "plugin.fragment:" + mPluginId);
     }
 
     protected Intent urlMap(Intent intent) {

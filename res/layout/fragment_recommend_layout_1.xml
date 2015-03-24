@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_grey_color" />
+    
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="19.5sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:text="zhinenghaha" />
+    
+    <include
+        android:id="@+id/left"
+        android:layout_width="match_parent"
+        android:layout_height="156.5dp"
+        layout="@layout/fragment_recommend_item" />
+    <!-- 
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="156.5dp"
+        android:adjustViewBounds="true"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="@null" />
+    
+    <TextView
+        android:id="@+id/skutitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black" />
+    -->
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_grey_color" />
+
+</LinearLayout>

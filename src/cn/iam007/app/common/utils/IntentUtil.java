@@ -5,6 +5,8 @@ import android.content.Intent;
 import cn.iam007.app.common.model.ContentInfo;
 import cn.iam007.app.common.utils.logging.LogUtil;
 import cn.iam007.app.mall.content.ContentActivity;
+import cn.iam007.app.mall.product.ProductActivity;
+import cn.iam007.app.mall.product.ProductInfo;
 import cn.iam007.app.mall.webview.WebViewActivity;
 
 public class IntentUtil {
@@ -29,6 +31,17 @@ public class IntentUtil {
         LogUtil.d(TAG, "launchContentActivity");
         LogUtil.d(TAG, "  " + intent.toString());
 
+        context.startActivity(intent);
+    }
+
+    public static void launchProductActivity(
+            Context context, ProductInfo productInfo) {
+        Intent intent = new Intent();
+        intent.setClass(context, ProductActivity.class);
+        intent.putExtra("product", productInfo);
+
+        LogUtil.d(TAG, "launchProductActivity");
+        LogUtil.d(TAG, "  " + intent.toString());
         context.startActivity(intent);
     }
 

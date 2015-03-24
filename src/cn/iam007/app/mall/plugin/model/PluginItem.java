@@ -321,7 +321,9 @@ public class PluginItem {
                         @Override
                         public void onFinish(boolean state, File file) {
                             LogUtil.d("download finish:" + state + " " + file);
-                            initFragmentSpecs();
+                            if (state) {
+                                initFragmentSpecs();
+                            }
                         }
                     });
 
